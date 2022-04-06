@@ -7,27 +7,15 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
-
-              <!-- <field name="state_id" position="attributes">
-                  <field placeholder="Departamento"/>
-              </field> -->
-
               <xpath expr="//field[@name='state_id']" position="attributes">
                 <attribute name="placeholder">Departamento</attribute>
               </xpath>
-
-              <!-- <field name="city" position="attributes">
-                  <field placeholder="Municipios"/>
-              </field> -->
-
               <xpath expr="//field[@name='city']" position="attributes">
                 <attribute name="placeholder">Municipio</attribute>
               </xpath>
-
               <field name="vat" position="after">
                   <field name="giro_negocio"/>
               </field>
-
             </field>
         </record>
 
