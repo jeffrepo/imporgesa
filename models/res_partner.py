@@ -8,4 +8,4 @@ class ProductTemplate(models.Model):
 
     giro_negocio = fields.Selection([('publico_final', 'Publico final'),('muebleria', 'Mueblería'), ('corporativo', 'Corporativo'), ('educacion', 'Educación'),
     ('gobierno', 'Gobierno'), ('eventos', 'Eventos'), ('distribuidora', 'Distribuidora'), ('retaurante', 'Restaurante'), ('iglesia', 'Iglesia'), ('hoteleria', 'Hotelería'),
-    ('vendedor_detalle', 'Vendedor al detalle')])
+    ('vendedor_detalle', 'Vendedor al detalle')],string ="Giro de negocio")
