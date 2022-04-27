@@ -19,5 +19,5 @@ class SaleOrder(models.Model):
 
             if product_zero and len(list_product) > 0:
                 raise UserError(_(
-                    'Productos sin existencia' + ','.join(list_product) ))
+                    'Productos sin existencia: ' + ','.join(list_product) ))
         return super(SaleOrder, self).action_confirm()
