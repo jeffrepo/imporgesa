@@ -14,7 +14,7 @@
                 <attribute name="placeholder">Municipio</attribute>
               </xpath>
               <field name="vat" position="after">
-                  <field name="giro_negocio"/>
+                  <field name="giro_negocio_id"/>
               </field>
             </field>
         </record>
