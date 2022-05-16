@@ -10,4 +10,9 @@ class ProductTemplate(models.Model):
     # ('gobierno', 'Gobierno'), ('eventos', 'Eventos'), ('distribuidora', 'Distribuidora'), ('retaurante', 'Restaurante'), ('iglesia', 'Iglesia'), ('hoteleria', 'Hotelería'),
     # ('vendedor_detalle', 'Vendedor al detalle')],string ="Giro de negocio")
 
+    @api.model
+    def _get_default_company(self):
+        return self.env.company.id    
+
     giro_negocio_id = fields.Many2one('imporgesa.giro_negocio','giro de negocio')
+    company_id = fields.Many2one(default=_get_default_company)

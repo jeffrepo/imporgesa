@@ -20,4 +20,16 @@ class SaleOrder(models.Model):
             if product_zero and len(list_product) > 0:
                 raise UserError(_(
                     'Productos sin existencia: ' + ','.join(list_product) ))
+
+            margen_venta = self.env['ir.config_parameter'].sudo().get_param('sale.margen_venta')
+            if float(margen_venta) > 0:
+                self.sale_price_verify(sale,float(margen_venta))
         return super(SaleOrder, self).action_confirm()
+
+    def sale_price_verify(self,sale,margen_venta):
+        if sale.order_line:
+            for line in sale.order_line:
+                if line.price_unit < ((line.product_id.standard_price * 1.12) / margen_venta):
+                    raise UserError(_(
+                    'Precio de ventar menor al marge: ' + str(line.product_id.name) ))
+        return True

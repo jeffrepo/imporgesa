@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="imporgesa_res_config_settings_view_form" model="ir.ui.view">
+      <field name="name">imporgesa.res.config.settings.view.form.inherit.sale</field>
+      <field name="model">res.config.settings</field>
+      <field name="inherit_id" ref="sale.res_config_settings_view_form" />
+      <field name="arch" type="xml">
+          <div id="pricing_setting_container" position="inside">
+              <div class="col-12 col-lg-6 o_setting_box" id="margen_venta_class">
+                  <div class="o_setting_left_pane"/>
+                  <div class="o_setting_right_pane">
+                      <span class="o_form_label">Margen de venta</span>
+                      <div class="text-muted">
+                          Margen de venta
+                      </div>
+                      <div class="text-muted">
+                          <field name="margen_venta"/>
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+      </field>
+  </record>
+
+</odoo>
