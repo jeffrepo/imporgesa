@@ -31,5 +31,5 @@ class SaleOrder(models.Model):
             for line in sale.order_line:
                 if line.price_unit < ((line.product_id.standard_price * 1.12) / margen_venta):
                     raise UserError(_(
-                    'Precio de ventar menor al marge: ' + str(line.product_id.name) ))
+                    'Precio de ventar menor al margen: ' + str(line.product_id.name) ))
         return True
