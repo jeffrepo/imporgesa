@@ -13,7 +13,7 @@ class SaleOrder(models.Model):
             list_product = []
             if sale.order_line:
                 for line in sale.order_line:
-                    if line.qty_available_today < line.product_uom_qty:
+                    if line.product_id.detailed_type =='product' and line.qty_available_today < line.product_uom_qty:
                         product_zero = True
                         list_product.append(line.product_id.name)
 
