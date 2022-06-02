@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_imporgesa_report_cheque,imporgesa.bauche_banco_industria,imporgesa.action_bauche_banco_industrial,point_of_sale.group_pos_manager,1,1,1,0

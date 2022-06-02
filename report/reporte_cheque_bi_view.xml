@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="bauche_banco_industrial">
+            <!-- <t t-call="web.external_layout"> -->
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+
+                  <div class="page">
+
+                    <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                    <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+                    <style type="text/css">
+                      table {
+                      border-style: solid;
+                      border-top-width: 1px;
+                      border-right-width: 1px;
+                      border-bottom-width: 1px;
+                      border-left-width: 1px
+                      }
+                    </style>
+                    <table style="width:100%">
+                      <tr border="1">
+                        <td align="right"></td>
+                        <td align="right"><t t-esc="o.ref"/></td>
+                      </tr>
+
+                      <tr border="1">
+                        <td align="right" colspan="3"><hr/></td>
+                      </tr>
+
+                      <tr border="1">
+                        <td align="left">Concepto</td>
+                      </tr>
+
+                      <tr>
+                        <td align="left"><t t-esc="o.descripcion"/></td>
+                      </tr>
+
+                      <tr t-foreach="o.move_id.line_ids" t-as="linea">
+                        <td><t t-esc="linea.account_id.code + ' ' + linea.account_id.name" /></td>
+                        <td align="right"><t t-esc="linea.debit"/></td>
+                        <td align="right"><t t-esc="linea.credit"/></td>
+                      </tr>
+
+                      <tr style="height:83px">
+                        <td align="center"></td>
+                      </tr>
+
+                      <tr>
+                        <td align="center" colspan="3">ELABORADO Y AUTORIZADO POR</td>
+                      </tr>
+
+                      <tr>
+                        <td align="right" colspan="3"><hr/></td>
+                      </tr>
+
+                      <tr style="height:83px">
+                        <td align="center"></td>
+                      </tr>
+
+                      <tr>
+                        <td align="center" colspan="3"><t t-esc="o.user_id.name"/></td>
+                      </tr>
+
+                      <tr style="height:1px">
+                        <td align="right" colspan="3"><hr/></td>
+                      </tr>
+
+                      <tr style="height:5px">
+                        <td align="center" colspan="3" >RECIBIDO POR</td>
+                      </tr>
+
+                      <tr style="height:1px">
+                        <td align="right" colspan="3"><hr/></td>
+                      </tr>
+
+                      <tr style="height:83px">
+                        <td align="center"></td>
+                      </tr>
+
+
+
+                      <tr>
+                        <td align="center" colspan="3">FIRMA Y FECHA</td>
+                      </tr>
+
+                    </table>
+                    <!-- <div style="font-size: 110%; position: absolute; top: 2.4cm; left: 8cm">
+                                GUATEMALA, <span t-field="o.date"/>
+                    </div>
+                    <div style="font-size: 110%; position: absolute; top: 2.4cm; left: 16.5cm">
+                        *<span t-esc="'{0:,.2f}'.format(o.amount)"/>*
+                    </div>
+                    <div style="font-size: 110%; position: absolute; top: 3.1cm; left: 4.6cm; width: 15cm">
+                        <span t-esc="o.partner_id.name"/>
+                    </div>
+
+                    <div style="font-size: 110%; position: absolute; top: 3.5cm; left: 4.6cm; width: 15cm">
+                        <span t-esc="a_letras(o.amount)"/>
+                    </div> -->
+
+                  </div>
+              </t>
+            </t>
+            <!-- </t> -->
+        </template>
+
+        <!-- <template id="bauche_banco_industrial">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
+                    <t t-call="imporgesa.bauche_cheque_bi_document" t-lang="lang"/>
+                </t>
+            </t>
+        </template> -->
+
+    </data>
+
+</odoo>

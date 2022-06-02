@@ -9,3 +9,5 @@ class ProductTemplate(models.Model):
     giro__negocio = fields.Selection([('1', 'Publico final'),('2', 'Mueblería'), ('3', 'Corporativo'), ('4', 'Educación'),
     ('5', 'Gobierno'), ('6', 'Eventos'), ('7', 'Distribuidora'), ('8', 'Restaurante'), ('9', 'Iglesia'), ('10', 'Hotelería'),
     ('11', 'Vendedor al detalle')])
+
+    vedado = fields.Boolean(string = "Vedado", required = True)
