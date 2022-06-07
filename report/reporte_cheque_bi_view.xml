@@ -8,9 +8,50 @@
                 <t t-foreach="docs" t-as="o">
 
                   <div class="page">
-
+                    
+                    <t t-if="o.company_id.id == 1">
+                    
+                      <div style="font-size: 110%; position: absolute; top: 1.9cm; left: 2cm; right: 2.5cm">
+                                GUATEMALA, <span t-field="o.date"/>
+                      </div>
+                      <div style="font-size: 110%; position: absolute; top: 1.9cm; left: 15.8cm">
+                          *<span t-esc="'{0:,.2f}'.format(o.amount)"/>*
+                      </div>
+                      <div style="font-size: 110%; position: absolute; top: 2.7cm; left: 2cm; right:2.5cm">
+                          <span t-esc="o.partner_id.name"/>
+                      </div>
+                      <div style="font-size: 110%; position: absolute; top: 3.4cm; left: 2cm; right:2.5cm">
+                          <span t-esc="a_letras(o.amount)"/>
+                      </div>  
+                      
+                    </t>
+                    
+                    <t t-if="o.company_id.id == 2">
+                      
+                      <div style="font-size: 110%; position: absolute; top: 1.6cm; left: 2cm; right: 2.5cm">
+                                GUATEMALA, <span t-field="o.date"/>
+                      </div>
+                      <div style="font-size: 110%; position: absolute; top: 1.6cm; left: 15.8cm">
+                          *<span t-esc="'{0:,.2f}'.format(o.amount)"/>*
+                      </div>
+                      <div style="font-size: 110%; position: absolute; top: 2.3cm; left: 2cm; right:2.5cm">
+                          <span t-esc="o.partner_id.name"/>
+                      </div>
+                      <div style="font-size: 110%; position: absolute; top: 3.1cm; left: 2cm; right:2.5cm">
+                          <span t-esc="a_letras(o.amount)"/>
+                      </div>
+                      
+                    </t>
+                    
                     <br/><br/><br/><br/><br/><br/><br/><br/><br/>
                     <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                    
+                    Descripcion: 
+                    
+                    <t t-esc="o.descripcion"></t>
+                    
+                    <br/>
+                    <br/>
 
                     <style type="text/css">
                       table {
@@ -21,44 +62,80 @@
                       border-left-width: 1px
                       }
                     </style>
+                    
+                    <style type="text/css">
+                      .celda{
+                        height: auto;
+                        width: 130;
+                      }
+                    </style>
+                    
                     <table style="width:100%">
-                      <tr border="1">
-                        <td align="right"></td>
-                        <td align="right"><t t-esc="o.ref"/></td>
-                      </tr>
-
-                      <tr border="1">
+                      <!--<tr border="1">
                         <td align="right" colspan="3"><hr/></td>
+                      </tr>-->
+                      
+                      <!--<tr border="1" >
+                        <td align="left" rowspan="4">Descripción</td>
+                        <td align="left" colspan="3" rowspan="4"></td>
                       </tr>
-
+                      
+                      <tr></tr>
+                      <tr></tr>
+                      <tr></tr>
+                      <tr></tr>-->
+                      
                       <tr border="1">
-                        <td align="left">Concepto</td>
+                        <td align="right" colspan="4"><t t-esc="o.ref"/></td>
+                      </tr>                      
+                      
+                      <tr>
+                        <td align="left">No. DE CUENTA</td>
+                        <td align="left">Nombre cuenta</td>
+                        <td align="right">Debe</td>
+                        <td align="center" class="celda">Haber</td>
                       </tr>
 
                       <tr>
-                        <td align="left"><t t-esc="o.descripcion"/></td>
+                        <td colspan="4"><hr/></td>
                       </tr>
 
                       <tr t-foreach="o.move_id.line_ids" t-as="linea">
-                        <td><t t-esc="linea.account_id.code + ' ' + linea.account_id.name" /></td>
-                        <td align="right"><t t-esc="linea.debit"/></td>
-                        <td align="right"><t t-esc="linea.credit"/></td>
+                        <td><t t-esc="linea.account_id.code "/></td>
+                        <td><t t-esc="linea.account_id.name"/></td>
+                        <td align="right" ><t t-esc="linea.debit"/></td>
+                        <td align="right" class="celda"><t t-esc="linea.credit"/></td>
                       </tr>
-
+                      
                       <tr style="height:83px">
-                        <td align="center"></td>
+                        <td align="center"/>
+                      </tr>
+                      
+                      <tr>
+                        <td colspan="4"><hr/></td>
+                      </tr>
+                      
+                      <tr>
+                        <td align="center">Emitido por:</td>
+                        <td ><t t-esc="o.user_id.name"/></td>
+                        <td align="left">Revisado por:</td>
+                        <td></td>
+                      </tr>
+                      
+                      <tr style="height:83px">
+                        <td align="center" >Autorizado por:</td>
+                        <td></td>
+                        <td align="left" >Recibi conforme:</td>
+                        <td></td>
+                        
                       </tr>
 
-                      <tr>
-                        <td align="center" colspan="3">ELABORADO Y AUTORIZADO POR</td>
-                      </tr>
-
-                      <tr>
+                      <!--<tr>
                         <td align="right" colspan="3"><hr/></td>
                       </tr>
 
                       <tr style="height:83px">
-                        <td align="center"></td>
+                        <td align="center"/>
                       </tr>
 
                       <tr>
@@ -70,22 +147,8 @@
                       </tr>
 
                       <tr style="height:5px">
-                        <td align="center" colspan="3" >RECIBIDO POR</td>
-                      </tr>
-
-                      <tr style="height:1px">
-                        <td align="right" colspan="3"><hr/></td>
-                      </tr>
-
-                      <tr style="height:83px">
-                        <td align="center"></td>
-                      </tr>
-
-
-
-                      <tr>
-                        <td align="center" colspan="3">FIRMA Y FECHA</td>
-                      </tr>
+                        <td align="center" colspan="3">RECIBIDO POR</td>
+                      </tr>-->
 
                     </table>
                     <!-- <div style="font-size: 110%; position: absolute; top: 2.4cm; left: 8cm">
