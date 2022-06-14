@@ -1,26 +1,35 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import api, fields, models, _
-from odoo.tools.misc import formatLang
-from odoo.exceptions import RedirectWarning, UserError, ValidationError, AccessError
+from odoo import api, fields, models, SUPERUSER_ID, _
+from odoo.exceptions import AccessError, UserError, ValidationError
 
-import logging
 
 class SaleOrder(models.Model):
-    _inherit = 'sale.order'
+    _inherit = "sale.order"
 
     def action_confirm(self):
-        res = super(SaleOrder, self).action_confirm()
-        self.verificacion_cliente_vedado()
-        return res
+        for sale in self:
+            product_zero = False
+            list_product = []
+            if sale.order_line:
+                for line in sale.order_line:
+                    if line.product_id.detailed_type =='product' and line.qty_available_today < line.product_uom_qty:
+                        product_zero = True
+                        list_product.append(line.product_id.name)
 
-    def verificacion_cliente_vedado(self):
-        clientes = self.env['res.partner'].search([('id', '=', self.partner_id.id), ('vedado', '=', True)])
+            if product_zero and len(list_product) > 0:
+                raise UserError(_(
+                    'Productos sin existencia: ' + ','.join(list_product) ))
 
-        for cliente in clientes:
-            if cliente.vedado:
-                raise UserError(_('El cliente '+cliente.name+ ' esta vedado'))
+            margen_venta = self.env['ir.config_parameter'].sudo().get_param('sale.margen_venta')
+            if float(margen_venta) > 0:
+                self.sale_price_verify(sale,float(margen_venta))
+        return super(SaleOrder, self).action_confirm()
 
-
+    def sale_price_verify(self,sale,margen_venta):
+        if sale.order_line:
+            for line in sale.order_line:
+                if line.price_unit < ((line.product_id.standard_price * 1.12) / margen_venta):
+                    raise UserError(_(
+                    'Precio de ventar menor al margen: ' + str(line.product_id.name) ))
         return True

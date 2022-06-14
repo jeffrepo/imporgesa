@@ -5,6 +5,7 @@ from odoo import models, fields, api
 from functools import lru_cache
 import logging
 
+
 class ReportBancoIndustrial(models.AbstractModel):
     _name = 'report.imporgesa.bauche_banco_industrial'
     _description = 'Creado para la configuración del cheque'
@@ -87,27 +88,27 @@ class ReportBancoIndustrial(models.AbstractModel):
         elif int(entero) < 1000:
             num_en_letras = en_letras[entero[0] + 'xx']
             if entero[1:3] != '00':
-                num_en_letras = num_en_letras + ' ' + num_a_letras(entero[1:3], False)
+                num_en_letras = num_en_letras + ' ' + self.num_a_letras(entero[1:3], False)
         elif int(entero) < 2000:
             num_en_letras = en_letras[entero[0] + 'xxx']
             if entero[1:4] != '000':
-                num_en_letras = num_en_letras + ' ' + num_a_letras(entero[1:4], False)
+                num_en_letras = num_en_letras + ' ' + self.num_a_letras(entero[1:4], False)
         elif int(entero) < 1000000:
             miles = int(entero.rjust(6)[0:3])
             cientos = entero.rjust(6)[3:7]
-            num_en_letras = num_a_letras(str(miles), False) + ' ' + en_letras['xxxxxx']
+            num_en_letras = self.num_a_letras(str(miles), False) + ' ' + en_letras['xxxxxx']
             if cientos != '000':
-                num_en_letras = num_en_letras + ' ' + num_a_letras(cientos, False)
+                num_en_letras = num_en_letras + ' ' + self.num_a_letras(cientos, False)
         elif int(entero) < 2000000:
             num_en_letras = en_letras[entero[0] + 'xxxxxx']
             if entero[1:7] != '000000':
-                num_en_letras = num_en_letras + ' ' + num_a_letras(entero[1:7], False)
+                num_en_letras = num_en_letras + ' ' + self.num_a_letras(entero[1:7], False)
         elif int(entero) < 1000000000000:
             millones = int(entero.rjust(12)[0:6])
             miles = entero.rjust(12)[6:12]
             num_en_letras = num_a_letras(str(millones), False) + ' ' + en_letras['x:x']
             if miles != '000000':
-                num_en_letras = num_en_letras + ' ' + num_a_letras(miles, False)
+                num_en_letras = num_en_letras + ' ' + self.num_a_letras(miles, False)
 
         if not completo:
             return num_en_letras

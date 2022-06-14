@@ -6,8 +6,13 @@ from odoo import api, fields, models, tools, _
 class ProductTemplate(models.Model):
     _inherit = "res.partner"
 
-    giro__negocio = fields.Selection([('1', 'Publico final'),('2', 'Mueblería'), ('3', 'Corporativo'), ('4', 'Educación'),
-    ('5', 'Gobierno'), ('6', 'Eventos'), ('7', 'Distribuidora'), ('8', 'Restaurante'), ('9', 'Iglesia'), ('10', 'Hotelería'),
-    ('11', 'Vendedor al detalle')])
+    # giro_negocio = fields.Selection([('publico_final', 'Publico final'),('muebleria', 'Mueblería'), ('corporativo', 'Corporativo'), ('educacion', 'Educación'),
+    # ('gobierno', 'Gobierno'), ('eventos', 'Eventos'), ('distribuidora', 'Distribuidora'), ('retaurante', 'Restaurante'), ('iglesia', 'Iglesia'), ('hoteleria', 'Hotelería'),
+    # ('vendedor_detalle', 'Vendedor al detalle')],string ="Giro de negocio")
 
-    vedado = fields.Boolean(string = "Vedado", required = True)
+    @api.model
+    def _get_default_company(self):
+        return self.env.company.id    
+
+    giro_negocio_id = fields.Many2one('imporgesa.giro_negocio','giro de negocio')
+    company_id = fields.Many2one(default=_get_default_company)
