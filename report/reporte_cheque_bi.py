@@ -5,7 +5,6 @@ from odoo import models, fields, api
 from functools import lru_cache
 import logging
 
-
 class ReportBancoIndustrial(models.AbstractModel):
     _name = 'report.imporgesa.bauche_banco_industrial'
     _description = 'Creado para la configuración del cheque'
