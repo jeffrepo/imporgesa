@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
     <template id="bauche_banco_industrial">
@@ -6,7 +6,7 @@
       <t t-name="imporgesa.bauche_banco_industrial">
           <!-- <t t-call="web.external_layout"> -->
           <t t-call="web.html_container">
-              <t t-foreach="docs.with_context(lang=lang)" t-as="o">
+              <t t-foreach="docs" t-as="o">
 
                 <div class="page">
 
@@ -99,7 +99,10 @@
 
                     <tr>
                       <td align="right" class="celda_1">Monto:</td>
-                      <td ><span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
+                      <td >
+                        <!-- <span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/> -->
+                        Q <span t-esc="'{0:,.2f}'.format(o.amount)"/>
+                      </td>
                     </tr>
 
                     <tr>
@@ -131,8 +134,8 @@
                     <tr t-foreach="o.move_id.line_ids" t-as="linea">
                       <td class="celda"><t t-esc="linea.account_id.code "/></td>
                       <td align="center"><t t-esc="linea.account_id.name"/></td>
-                      <td align="right" ><t t-esc="linea.debit" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
-                      <td align="right" class="celda"><span t-esc="linea.credit" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
+                      <td align="right">Q <t t-esc="'{0:,.2f}'.format(linea.debit)"/></td>
+                      <td align="right" class="celda">Q <span t-esc="'{0:,.2f}'.format(linea.credit)"/></td>
                     </tr>
 
                     <tr style="height:83px">
@@ -155,9 +158,28 @@
                       <td></td>
                       <td align="right" >Recibi conforme:</td>
                       <td></td>
-
                     </tr>
 
+                    <tr>
+                      <td ></td>
+                      <td></td>
+                      <td align="right" >NOMBRE:</td>
+                      <td></td>
+                    </tr>
+
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td align="right">FIRMA:</td>
+                      <td></td>
+                    </tr>
+
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td align="right">FECHA:</td>
+                      <td></td>
+                    </tr>
                   </table>
 
 
