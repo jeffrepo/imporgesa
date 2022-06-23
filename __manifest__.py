@@ -17,12 +17,14 @@
     'depends': ['product','base','sale'],
 
     'data': [
+        'security/ir.model.access.csv',
         'views/product_template_views.xml',
         'views/product_views.xml',
         'views/product_template_views.xml',
         'views/res_partner_views.xml',
         'views/account_report.xml',
         'report/reporte_cheque_bi_view.xml',
+        'wizard/recuperacion_pagos_wizard_views.xml'
     ],
     'qweb': [
     ],
