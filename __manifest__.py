@@ -23,6 +23,9 @@
         'views/product_template_views.xml',
         'views/res_partner_views.xml',
         'views/account_report.xml',
+        'views/account_journal_views.xml',
+        'views/account_payments_views.xml',
+        'views/account_payments_register_views.xml',
         'report/reporte_cheque_bi_view.xml',
         'wizard/recuperacion_pagos_wizard_views.xml'
     ],
