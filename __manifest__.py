@@ -27,7 +27,9 @@
         'views/account_payments_views.xml',
         'views/account_payments_register_views.xml',
         'report/reporte_cheque_bi_view.xml',
-        'wizard/recuperacion_pagos_wizard_views.xml'
+        'wizard/recuperacion_pagos_wizard_views.xml',
+        'wizard/reporte_ventas_wizard_views.xml',
+        'wizard/reporte_inventario_wizard_views.xml'
     ],
     'qweb': [
     ],
