@@ -7,10 +7,10 @@
             <field name="model">imporgesa.reporte_inventario.wizard</field>
             <field name="arch" type="xml">
                 <form string="Reporte de inventario">
-                    <group>
+                    <!-- <group>
                         <field name="fecha_inicio"/>
                         <field name="fecha_fin"/>
-                    </group>
+                    </group> -->
                     <group>
                         <field name="name" invisible="1"/>
                         <field name="archivo" readonly="1" filename="name"/>
