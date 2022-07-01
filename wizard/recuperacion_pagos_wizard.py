@@ -35,21 +35,25 @@ class RecuperacionPagosWizard(models.TransientModel):
             f = io.BytesIO()
             libro = xlsxwriter.Workbook(f)
             hoja = libro.add_worksheet('Recuperación de pagos')
+            formato_titulo = libro.add_format({'size': 11, 'color':'#0d354d', 'align':'center', 'fg_color':'#ffffff', 'bold':False})
+            #Tamaño de las columnas
+            hoja.set_column('A:N', 20)
 
-            hoja.write(1, 0, 'Fecha recuperación')
-            hoja.write(1, 1, 'Correlativo pago')
-            hoja.write(1, 2, 'Diario')
-            hoja.write(1, 3, 'Descripción')
-            hoja.write(1, 4, 'Monto')
-            hoja.write(1, 5, 'Forma de pago')
-            hoja.write(1, 6, 'Usuario que recupero')
-            hoja.write(1, 7, 'Correlativo factura')
-            hoja.write(1, 8, 'Fecha factura')
-            hoja.write(1, 9, 'Cliente')
-            hoja.write(1, 10, 'NIT')
-            hoja.write(1, 11, 'Sucursal')
-            hoja.write(1, 12, 'Días de recuperación')
-            hoja.write(1, 13, 'Porcentajes de recuperación')
+            hoja.write(1, 0, 'Fecha recuperación', formato_titulo)
+            hoja.write(1, 1, 'Correlativo pago', formato_titulo)
+            hoja.write(1, 2, 'Forma de pago', formato_titulo)
+            hoja.write(1, 3, 'Descripción', formato_titulo)
+            hoja.write(1, 4, 'Monto', formato_titulo)
+            # hoja.write(1, 5, 'Forma de pago', formato_titulo)
+            hoja.write(1, 5, 'Usuario que recupero', formato_titulo)
+            hoja.write(1, 6, 'Correlativo factura', formato_titulo)
+            hoja.write(1, 7, 'Fecha factura', formato_titulo)
+            hoja.write(1, 8, 'Saldo factura', formato_titulo)
+            hoja.write(1, 9, 'Cliente', formato_titulo)
+            hoja.write(1, 10, 'NIT', formato_titulo)
+            hoja.write(1, 11, 'Sucursal', formato_titulo)
+            hoja.write(1, 12, 'Días de recuperación', formato_titulo)
+            hoja.write(1, 13, 'Porcentajes de recuperación', formato_titulo)
 
             pagos = self.env['account.payment'].search([('date', '>=', w.fecha_inicio), ('date', '<=', w.fecha_fin), ('payment_type', '=', 'inbound')])
 
@@ -62,25 +66,31 @@ class RecuperacionPagosWizard(models.TransientModel):
                 if pago.descripcion:
                     hoja.write(fila, 3, pago.descripcion)
                 hoja.write(fila, 4, pago.amount)
+                if pago.vendedor_id:
+                    hoja.write(fila, 5, pago.vendedor_id.name)
                 if pago.reconciled_invoices_count:
                     fel_serie_fel_numero = ''
                     for factura in pago.reconciled_invoice_ids:
-                        # logging.warning('Que es factura?')
-                        # logging.warning(factura)
                         if factura.fel_serie and factura.fel_numero:
                             fel_serie_fel_numero = str(factura.fel_serie)+'-'+str(factura.fel_numero)
                         fecha_factura = factura.invoice_date.strftime('%d/%m/%Y')
-                        hoja.write(fila, 7, fel_serie_fel_numero)
-                        hoja.write(fila, 8, fecha_factura)
+                        hoja.write(fila, 6, fel_serie_fel_numero)
+                        hoja.write(fila, 7, fecha_factura)
+                        hoja.write(fila, 8, factura.amount_residual)
                         hoja.write(fila, 9, factura.partner_id.name)
                         hoja.write(fila, 10, factura.partner_id.vat)
                         hoja.write(fila, 11, factura.journal_id.name)
                         dias_recuperacion = pago.date - factura.invoice_date
-                        # logging.warning('Cuantos días?')
-                        # logging.warning("Que pago es?"+'   '+pago.name+' '+str(pago.date))
-                        # logging.warning("Que factura es?"+'   '+factura.name+' '+str(factura.invoice_date))
-                        # logging.warning(dias_recuperacion)
                         hoja.write(fila, 12, dias_recuperacion)
+                        if pago.vendedor_id and pago.journal_id.pago_comisiones:
+                            for linea in pago.journal_id.pago_comisiones:
+                                if pago.vendedor_id.id == linea.vendedor_id.id:
+                                    logging.warning(pago.vendedor_id.name)
+                                    logging.warning(linea.vendedor_id.id)
+                                    porcentaje = linea.comision / 100
+                                    porcentaje_comision = round(pago.amount * porcentaje,2)
+                                    hoja.write(fila, 13, porcentaje_comision)
+
                 fila+=1
             libro.close()
             datos = base64.b64encode(f.getvalue())

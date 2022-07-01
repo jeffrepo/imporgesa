@@ -16,6 +16,11 @@
               <field name="vat" position="after">
                   <field name="giro_negocio_id"/>
               </field>
+
+              <field name="category_id" position="after">
+                  <field name="vendedor"/>
+              </field>
+
             </field>
         </record>
 
