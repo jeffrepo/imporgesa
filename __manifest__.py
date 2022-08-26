@@ -14,7 +14,7 @@
     'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['product','base','sale'],
+    'depends': ['product','base','sale', 'stock'],
 
     'data': [
         'security/ir.model.access.csv',
@@ -29,7 +29,10 @@
         'report/reporte_cheque_bi_view.xml',
         'wizard/recuperacion_pagos_wizard_views.xml',
         'wizard/reporte_ventas_wizard_views.xml',
-        'wizard/reporte_inventario_wizard_views.xml'
+        'wizard/reporte_inventario_wizard_views.xml',
+        'report/label_code_price_view.xml',
+        'report/label_code_view.xml',
+        'report/stock_report_views.xml'
     ],
     'qweb': [
     ],

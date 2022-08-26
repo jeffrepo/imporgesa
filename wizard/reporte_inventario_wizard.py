@@ -12,8 +12,8 @@ class ReporteInventarioWizard(models.TransientModel):
     _name = 'imporgesa.reporte_inventario.wizard'
     _description = "Wizard para reporte de inventarios"
 
-    fecha_inicio = fields.Date('Fecha inicio')
-    fecha_fin = fields.Date('Fecha fin')
+    # fecha_inicio = fields.Date('Fecha inicio')
+    # fecha_fin = fields.Date('Fecha fin')
     name = fields.Char('Nombre archivo', size=32)
     archivo = fields.Binary('Archivo', filters='.xls')
 
@@ -28,10 +28,6 @@ class ReporteInventarioWizard(models.TransientModel):
 
     def print_report_excel(self):
         for w in self:
-            dict = {}
-            dict['fecha_inicio'] = w.fecha_inicio
-            dict['fecha_fin'] = w.fecha_fin
-
             f = io.BytesIO()
             libro = xlsxwriter.Workbook(f)
             hoja = libro.add_worksheet('Reporte de inventario')
@@ -51,59 +47,53 @@ class ReporteInventarioWizard(models.TransientModel):
             hoja.write(1, 9, 'Última compra', formato_titulo)
             hoja.write(1, 10, 'Última venta', formato_titulo)
 
-            informes_inventario = self.env['stock.quant'].search([
-            ('inventory_date', '>=', w.fecha_inicio),
-            ('inventory_date', '<=', w.fecha_fin)])
+            informes_inventario = self.env['stock.quant'].search([])
 
             fila=2
             for inventario in informes_inventario:
+                if inventario.location_id.usage == 'internal':
+                    if inventario.product_id.default_code:
+                        hoja.write(fila, 0, inventario.product_id.default_code)
+                    hoja.write(fila, 1, inventario.product_id.name)
+                    if inventario.product_id.marca:
+                        hoja.write(fila, 2, inventario.product_id.marca)
+                    if inventario.product_id.categ_id:
+                        hoja.write(fila, 3, inventario.product_id.categ_id.name)
+                    bodega = self.env['stock.warehouse'].search([('lot_stock_id', '=', inventario.location_id.id)])
+                    if bodega:
+                        hoja.write(fila, 4, bodega[0].name)
+                    hoja.write(fila, 5, inventario.location_id.name)
+                    hoja.write(fila, 6, inventario.inventory_quantity_auto_apply)
+                    hoja.write(fila, 7, inventario.product_id.standard_price)
+                    hoja.write(fila, 8, inventario.product_id.list_price)
 
-                if inventario.product_id.default_code:
-                    hoja.write(fila, 0, inventario.product_id.default_code)
-                hoja.write(fila, 1, inventario.product_id.name)
-                if inventario.product_id.marca:
-                    hoja.write(fila, 2, inventario.product_id.marca)
-                if inventario.product_id.categ_id:
-                    hoja.write(fila, 3, inventario.product_id.categ_id.name)
-                bodega = self.env['stock.warehouse'].search([('lot_stock_id', '=', inventario.location_id.id)])
-                if bodega:
-                    hoja.write(fila, 4, bodega[0].name)
-                hoja.write(fila, 5, inventario.location_id.name)
-                hoja.write(fila, 6, inventario.inventory_quantity_auto_apply)
-                hoja.write(fila, 7, inventario.product_id.standard_price)
-                hoja.write(fila, 8, inventario.product_id.list_price)
+                    ubicacion_id = self.env['stock.location'].search([('usage', '=', 'supplier')]).ids
 
-                ubicacion_id = self.env['stock.location'].search([('usage', '=', 'supplier')]).ids
+                    if inventario.product_id and ubicacion_id:
+                        stock_move_line = self.env['stock.move.line'].search([
+                        ('product_id', '=', inventario.product_id.id),
+                        ('location_id', 'in', ubicacion_id)],order='date asc')
+                    else:
+                        continue
 
-                if inventario.product_id and ubicacion_id:
-                    stock_move_line = self.env['stock.move.line'].search([
-                    ('product_id', '=', inventario.product_id.id),
-                    ('location_id', 'in', ubicacion_id)],order='date asc')
-                else:
-                    continue
-
-                if stock_move_line:
-                    logging.warning("Trajo algo stock_move_line?")
-                    logging.warning(stock_move_line[0].date)
-                    hoja.write(fila, 9, stock_move_line[0].date.strftime('%d/%m/%Y'))
-                else:
-                    continue
+                    if stock_move_line:
+                        hoja.write(fila, 9, stock_move_line[0].date.strftime('%d/%m/%Y'))
+                    else:
+                        continue
 
 
-                ubicacion_id_customer = self.env['stock.location'].search([('usage', '=', 'customer')]).ids
-                if inventario.product_id and ubicacion_id_customer:
-                    stock_move_line_venta = self.env['stock.move.line'].search([
-                    ('product_id', '=', inventario.product_id.id),
-                    ('location_id', 'in', ubicacion_id_customer)],order='date asc')
-                    if stock_move_line_venta:
-                        hoja.write(fila, 10, stock_move_line_venta[0].date.strftime('%d/%m/%Y'))
-                else:
-                    continue
+                    ubicacion_id_customer = self.env['stock.location'].search([('usage', '=', 'customer')]).ids
+                    if inventario.product_id and ubicacion_id_customer:
+                        stock_move_line_venta = self.env['stock.move.line'].search([
+                        ('product_id', '=', inventario.product_id.id),
+                        ('location_id', 'in', ubicacion_id_customer)],order='date asc')
+                        if stock_move_line_venta:
+                            hoja.write(fila, 10, stock_move_line_venta[0].date.strftime('%d/%m/%Y'))
+                    else:
+                        continue
 
-                logging.warning("Trajo algo el nuevo stock_move_line_venta")
-                logging.warning(stock_move_line_venta)
 
-                fila+=1
+                    fila+=1
 
 
             libro.close()
