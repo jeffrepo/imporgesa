@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <template id="label_code_view">
+
+          <t t-call="web.html_container">
+              <div class="page">
+                <!-- Etiqueta sin precio  -->
+                <t t-if="dicc_products">
+
+                  <t t-foreach="dicc_products" t-as="llave">
+
+                    <table style="width:100%; align:center">
+                        <tr>
+                          <td align="center">
+                              <font  style="font-size: 60%; bold:True"><span t-esc="dicc_products[llave]['codigo']"/></font>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="center">
+                              <font style="font-size: 40%"><span t-esc="dicc_products[llave]['descripcion']" style="align:center"/></font>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="center" >
+                            <!-- style="width:50px; height:50px" -->
+                              <div  t-esc="dicc_products[llave]['codigo_barras']" t-options="{'widget': 'barcode','width': 600, 'height': 150, 'img_style': 'width:70px;height:20px;'}"/>
+                          </td>
+                        </tr>
+
+                    </table>
+                    <p style="page-break-after:always;">   </p>
+                  </t>
+
+                </t>
+
+              </div>
+          </t>
+
+        </template>
+
+    </data>
+</odoo>
