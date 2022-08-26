@@ -25,8 +25,8 @@ class ProductLabelLayout(models.TransientModel):
             xml_id = 'imporgesa.report_label_code_price'
 
             for linea in self.move_line_ids:
-                logging.warning(linea.product_uom_qty)
-                for i in range(int(linea.product_uom_qty)):
+                logging.warning(linea.qty_done)
+                for i in range(int(linea.qty_done)):
                     llave = str(i) + str(linea.product_id.default_code)
                     if llave not in dicc_productos_price:
                         dicc_productos_price[llave] = {
@@ -44,7 +44,7 @@ class ProductLabelLayout(models.TransientModel):
             xml_id = 'imporgesa.report_label_code'
 
             for linea in self.move_line_ids:
-                for i in range(int(linea.product_uom_qty)):
+                for i in range(int(linea.qty_done)):
                     llave = str(i) + str(linea.product_id.default_code)
                     if llave not in dicc_productos_price:
                         dicc_products[llave] = {
