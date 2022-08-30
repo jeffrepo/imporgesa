@@ -5,44 +5,70 @@
         <template id="label_code_price_view">
 
           <t t-call="web.html_container">
-              <div class="page">
-                <t t-if="dicc_productos_price">
+              <t t-if="dicc_productos_price">
+                <t t-foreach="dicc_productos_price" t-as="llave">
+                  <div class="page">
+                    <style>
+                      table {
+                        margin-bottom: 0px;
+                        margin-top: 0px;
+                        <!-- height:75px; -->
+                        width:100%;
+                        align:center;
+                      }
+                      .centered {
+                        <!-- position: absolute; /* or absolute */ -->
+                        top: 5%;
+                        left: 5%;
+                      }
+                    </style>
+                    <t t-set="i" t-value="1"/>
+                    <div >
 
-                  <t t-foreach="dicc_productos_price" t-as="llave">
+                      <table style="margin-top:0.02mm" class="centered">
+                          <tr>
+                            <td align="center">
+                                <font  style="font-size: 10px; bold:True"><span t-esc="dicc_productos_price[llave]['codigo']"/></font>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="center">
+                                <font style="font-size: 7px"><span t-esc="dicc_productos_price[llave]['descripcion']" style="align:center"/></font>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="center" >
+                                <div  t-esc="dicc_productos_price[llave]['codigo_barras']" t-options="{'widget': 'barcode','width': 600, 'height': 150, 'img_style': 'width:70px;height:22px;'}"/>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="center">
+                                <!-- <span t-esc="i" style="font-size:10px"/> -->
+                                <font style="font-size: 7px">Q<span t-esc="dicc_productos_price[llave]['precio']" style="align:center"/></font>
+                            </td>
+                          </tr>
+                          <p style="page-break-after:always;">   </p>
+                      </table>
+                      <!-- <p style="page-break-after:always;">   </p> -->
+                    </div>
 
-                    <table style="width:100%; align:center">
-                        <tr>
-                          <td align="center">
-                              <font  style="font-size: 60%; bold:True"><span t-esc="dicc_productos_price[llave]['codigo']"/></font>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td align="center">
-                              <font style="font-size: 40%"><span t-esc="dicc_productos_price[llave]['descripcion']" style="align:center"/></font>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td align="center" >
-                              <div  t-esc="dicc_productos_price[llave]['codigo_barras']" t-options="{'widget': 'barcode','width': 600, 'height': 150, 'img_style': 'width:70px;height:20px;'}"/>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td align="center">
-                              <font style="font-size: 40%">Q<span t-esc="dicc_productos_price[llave]['precio']" style="align:center"/></font>
-                          </td>
-                        </tr>
+                        <!-- <t t-set="i" t-value="i+1"/>
+                        <p>La longitud <t t-esc="len(dicc_productos_price)"/>, esto es i <t t-esc="i"/></p>
+                        <t t-if="i != len(dicc_productos_price)">
+                          <p style="font-size:2px"><span t-esc="i"/>Algo dentro man</p>
+                          <p style="page-break-after:always;">   </p>
 
-                    </table>
-                    <p style="page-break-after:always;">   </p>
-                  </t>
+                        </t> -->
 
+
+
+
+
+
+
+                  </div>
                 </t>
-
-
-
-
-
-              </div>
+              </t>
           </t>
 
         </template>
