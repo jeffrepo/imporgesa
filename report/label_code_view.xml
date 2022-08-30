@@ -12,7 +12,7 @@
                         table {
                           margin-bottom: 0px;
                           margin-top: 0px;
-                          <!-- height:75px; -->
+                          height:68px;
                           width:100%;
                           align:center;
                         }
@@ -27,12 +27,12 @@
 
                                 <tr>
                                   <td align="center">
-                                      <font  style="font-size: 12px; bold:True"><span t-esc="dicc_products[llave]['codigo']"/></font>
+                                      <font  style="font-size: 8px; bold:True"><span t-esc="dicc_products[llave]['codigo']"/></font>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td align="center">
-                                      <font style="font-size: 10px"><span t-esc="dicc_products[llave]['descripcion']" style="align:center"/></font>
+                                      <font style="font-size: 5px"><span t-esc="dicc_products[llave]['descripcion']" style="align:center"/></font>
                                   </td>
                                 </tr>
                                 <tr>
