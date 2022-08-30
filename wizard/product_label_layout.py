@@ -25,7 +25,7 @@ class ProductLabelLayout(models.TransientModel):
             xml_id = 'imporgesa.report_label_code_price'
 
             for linea in self.move_line_ids:
-                logging.warning(linea.qty_done)
+
                 for i in range(int(linea.qty_done)):
                     llave = str(i) + str(linea.product_id.default_code)
                     if llave not in dicc_productos_price:
@@ -35,9 +35,33 @@ class ProductLabelLayout(models.TransientModel):
                         'precio':linea.product_id.list_price,
                         'codigo_barras': linea.product_id.barcode
                         }
-                logging.warning(linea.product_id.default_code)
-                logging.warning(linea.product_id.name)
-                logging.warning(linea.product_id.list_price)
+
+
+            if self.product_ids:
+
+                for i in range(self.custom_quantity):
+                    logging.warning('new i '+str(i))
+                    logging.warning(self.product_ids.name)
+                    llave = str(i) + str(self.product_ids.default_code)
+                    if llave not in dicc_productos_price:
+                        dicc_productos_price[llave] = {
+                        'codigo':self.product_ids.default_code,
+                        'descripcion': self.product_ids.name,
+                        'precio':self.product_ids.list_price,
+                        'codigo_barras': self.product_ids.barcode
+                        }
+            if self.product_tmpl_ids:
+                for i in range(self.custom_quantity):
+                    logging.warning('new i '+str(i))
+                    logging.warning(self.product_tmpl_ids.name)
+                    llave = str(i) + str(self.product_tmpl_ids.default_code)
+                    if llave not in dicc_productos_price:
+                        dicc_productos_price[llave] = {
+                        'codigo':self.product_tmpl_ids.default_code,
+                        'descripcion': self.product_tmpl_ids.name,
+                        'precio':self.product_tmpl_ids.list_price,
+                        'codigo_barras': self.product_tmpl_ids.barcode
+                        }
             logging.warning(dicc_productos_price)
 
         if self.print_format == 'code':
@@ -51,6 +75,28 @@ class ProductLabelLayout(models.TransientModel):
                         'codigo':linea.product_id.default_code,
                         'descripcion': linea.product_id.name,
                         'codigo_barras': linea.product_id.barcode
+                        }
+            if self.product_ids:
+                for i in range(self.custom_quantity):
+                    # logging.warning('new i '+str(i))
+                    # logging.warning(self.product_ids.name)
+                    llave = str(i) + str(self.product_ids.default_code)
+                    if llave not in dicc_productos_price:
+                        dicc_products[llave] = {
+                        'codigo':self.product_ids.default_code,
+                        'descripcion': self.product_ids.name,
+                        'codigo_barras': self.product_ids.barcode
+                        }
+            if self.product_tmpl_ids:
+                for i in range(self.custom_quantity):
+                    # logging.warning('new i '+str(i))
+                    # logging.warning(self.product_ids.name)
+                    llave = str(i) + str(self.product_tmpl_ids.default_code)
+                    if llave not in dicc_productos_price:
+                        dicc_products[llave] = {
+                        'codigo':self.product_tmpl_ids.default_code,
+                        'descripcion': self.product_tmpl_ids.name,
+                        'codigo_barras': self.product_tmpl_ids.barcode
                         }
 
         data['dicc_productos_price']=dicc_productos_price
