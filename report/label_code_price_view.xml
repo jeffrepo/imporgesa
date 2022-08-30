@@ -12,7 +12,7 @@
                       table {
                         margin-bottom: 0px;
                         margin-top: 0px;
-                        <!-- height:75px; -->
+                        height:68px;
                         width:100%;
                         align:center;
                       }
@@ -28,12 +28,12 @@
                       <table style="margin-top:0.02mm" class="centered">
                           <tr>
                             <td align="center">
-                                <font  style="font-size: 10px; bold:True"><span t-esc="dicc_productos_price[llave]['codigo']"/></font>
+                                <font  style="font-size: 8px; bold:True"><span t-esc="dicc_productos_price[llave]['codigo']"/></font>
                             </td>
                           </tr>
                           <tr>
                             <td align="center">
-                                <font style="font-size: 7px"><span t-esc="dicc_productos_price[llave]['descripcion']" style="align:center"/></font>
+                                <font style="font-size: 5px"><span t-esc="dicc_productos_price[llave]['descripcion']" style="align:center"/></font>
                             </td>
                           </tr>
                           <tr>
@@ -44,10 +44,10 @@
                           <tr>
                             <td align="center">
                                 <!-- <span t-esc="i" style="font-size:10px"/> -->
-                                <font style="font-size: 7px">Q<span t-esc="dicc_productos_price[llave]['precio']" style="align:center"/></font>
+                                <font style="font-size: 5px">Q<span t-esc="dicc_productos_price[llave]['precio']" style="align:center"/></font>
                             </td>
                           </tr>
-                          <p style="page-break-after:always;">   </p>
+                          <!-- <p style="page-break-after:always;">   </p> -->
                       </table>
                       <!-- <p style="page-break-after:always;">   </p> -->
                     </div>
