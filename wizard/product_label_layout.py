@@ -40,16 +40,19 @@ class ProductLabelLayout(models.TransientModel):
             if self.product_ids:
 
                 for i in range(self.custom_quantity):
-                    logging.warning('new i '+str(i))
-                    logging.warning(self.product_ids.name)
-                    llave = str(i) + str(self.product_ids.default_code)
-                    if llave not in dicc_productos_price:
-                        dicc_productos_price[llave] = {
-                        'codigo':self.product_ids.default_code,
-                        'descripcion': self.product_ids.name,
-                        'precio':self.product_ids.list_price,
-                        'codigo_barras': self.product_ids.barcode
-                        }
+                    # logging.warning('new i '+str(i))
+                    # logging.warning(self.product_ids.name)
+                    logging.warning('Hi here')
+                    logging.warning(self.product_ids)
+                    for product_code in self.product_ids:
+                        llave = str(i) + str(product_code.default_code)
+                        if llave not in dicc_productos_price:
+                            dicc_productos_price[llave] = {
+                            'codigo':product_code.default_code,
+                            'descripcion': product_code.name,
+                            'precio':product_code.list_price,
+                            'codigo_barras': product_code.barcode
+                            }
             if self.product_tmpl_ids:
                 for i in range(self.custom_quantity):
                     logging.warning('new i '+str(i))
@@ -69,24 +72,26 @@ class ProductLabelLayout(models.TransientModel):
 
             for linea in self.move_line_ids:
                 for i in range(int(linea.qty_done)):
-                    llave = str(i) + str(linea.product_id.default_code)
-                    if llave not in dicc_productos_price:
-                        dicc_products[llave] = {
-                        'codigo':linea.product_id.default_code,
-                        'descripcion': linea.product_id.name,
-                        'codigo_barras': linea.product_id.barcode
-                        }
+                    for product_code in self.product_ids:
+                        llave = str(i) + str(product_code.default_code)
+                        if llave not in dicc_productos_price:
+                            dicc_products[llave] = {
+                            'codigo':linea.product_id.default_code,
+                            'descripcion': linea.product_id.name,
+                            'codigo_barras': linea.product_id.barcode
+                            }
             if self.product_ids:
                 for i in range(self.custom_quantity):
                     # logging.warning('new i '+str(i))
                     # logging.warning(self.product_ids.name)
-                    llave = str(i) + str(self.product_ids.default_code)
-                    if llave not in dicc_productos_price:
-                        dicc_products[llave] = {
-                        'codigo':self.product_ids.default_code,
-                        'descripcion': self.product_ids.name,
-                        'codigo_barras': self.product_ids.barcode
-                        }
+                    for product_code in self.product_ids:
+                        llave = str(i) + str(product_code.default_code)
+                        if llave not in dicc_productos_price:
+                            dicc_products[llave] = {
+                            'codigo':product_code.default_code,
+                            'descripcion': product_code.name,
+                            'codigo_barras': product_code.barcode
+                            }
             if self.product_tmpl_ids:
                 for i in range(self.custom_quantity):
                     # logging.warning('new i '+str(i))
