@@ -43,5 +43,17 @@
           <field name="binding_type">report</field>
       </record>
 
+      <record id="report_label_code_lines" model="ir.actions.report">
+          <field name="name">Code lines</field>
+          <field name="model">product.template</field>
+          <field name="report_type">qweb-pdf</field>
+          <field name="report_name">imporgesa.label_code_lines_view</field>
+          <field name="report_file">imporgesa.label_code_lines_view</field>
+          <field name="paperformat_id" ref="imporgesa.paperformat_label_code_price_sheet"/>
+          <field name="print_report_name">'Products Labels - %s' % (object.name)</field>
+          <field name="binding_model_id" eval="False"/>
+          <field name="binding_type">report</field>
+      </record>
+
     </data>
 </odoo>
