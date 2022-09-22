@@ -5,7 +5,8 @@
         <template id="label_code_view">
 
           <t t-call="web.html_container">
-              <t t-if="dicc_products">
+              <t t-if="dicc_products" >
+                <!-- <span t-esc="dicc_products"/> -->
                 <t t-foreach="dicc_products" t-as="llave">
                     <t t-foreach="dicc_products[llave]" t-as="posicion">
 
@@ -24,7 +25,7 @@
                             left: 5%;
                           }
                         </style>
-                          <!-- Etiqueta sin precio  -->
+                          <!-- Etiqueta sin precio -->
                               <table style="margin-top:0.12mm" class="centered">
 
                                   <tr>
@@ -32,7 +33,7 @@
                                         <font  style="font-size: 8px; bold:True"><span t-esc="posicion['codigo']"/></font>
                                     </td>
                                   </tr>
-                                  
+
                                   <tr>
                                     <td align="center">
                                         <font style="font-size: 5px"><span t-esc="posicion['descripcion']" style="align:center"/></font>
