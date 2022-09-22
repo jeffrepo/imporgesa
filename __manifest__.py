@@ -14,7 +14,7 @@
     'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['product','base','sale', 'stock', 'sucasa'],
+    'depends': ['product','base','sale', 'stock'],
 
     'data': [
         'security/ir.model.access.csv',
@@ -33,7 +33,8 @@
         'report/label_code_price_view.xml',
         'report/label_code_view.xml',
         'report/stock_report_views.xml',
-        'report/label_code_lines_view.xml'
+        'report/label_code_lines_view.xml',
+        'report/sale_report.xml'
     ],
     'qweb': [
     ],
