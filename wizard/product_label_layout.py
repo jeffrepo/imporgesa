@@ -25,7 +25,7 @@ class ProductLabelLayout(models.TransientModel):
 
         if self.print_format == 'code_price':
             xml_id = 'imporgesa.report_label_code_price'
-
+            logging.warning('Que onda?????????')
             if self.move_line_ids:
                 for linea in self.move_line_ids:
                     logging.warning('1 with price')
@@ -147,4 +147,5 @@ class ProductLabelLayout(models.TransientModel):
         logging.warning(data['dicc_products_price'])
         logging.warning(data['dicc_products'])
         logging.warning(data['dicc_products_lines'])
+        logging.warning(xml_id)
         return xml_id, data

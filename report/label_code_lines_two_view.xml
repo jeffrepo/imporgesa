@@ -2,13 +2,12 @@
 <odoo>
     <data>
 
-        <template id="label_code_view">
+        <template id="label_code_lines_so">
 
           <t t-call="web.html_container">
-            <!-- <span t-esc="dicc_products"/> -->
-              <t t-if="dicc_products" >
-                <t t-foreach="dicc_products" t-as="llave">
-                    <t t-foreach="dicc_products[llave]" t-as="posicion">
+              <t t-if="dicc_products_lines">
+                <t t-foreach="dicc_products_lines" t-as="llave">
+                    <t t-foreach="dicc_products_lines[llave]" t-as="posicion">
 
                       <div class="page">
                         <style>
@@ -25,24 +24,31 @@
                             left: 5%;
                           }
                         </style>
-                          <!-- Etiqueta sin precio -->
+                          <!-- Etiqueta sin precio  -->
                               <table style="margin-top:0.12mm" class="centered">
 
                                   <tr>
                                     <td align="center">
-                                        <font  style="font-size: 8px; bold:True"><span t-esc="posicion['codigo']"/></font>
+                                        <font  style="font-size: 8px; bold:True"><span t-esc="posicion['code']"/></font>
                                     </td>
                                   </tr>
 
                                   <tr>
                                     <td align="center">
-                                        <font style="font-size: 5px"><span t-esc="posicion['descripcion']" style="align:center"/></font>
+                                        <font style="font-size: 5px"><span t-esc="posicion['description']" style="align:center"/></font>
                                     </td>
                                   </tr>
 
                                   <tr>
                                     <td align="center" >
-                                      <div  t-esc="posicion['codigo_barras']" t-options="{'widget': 'barcode','width': 600, 'height': 150, 'img_style': 'width:70px;height:20px;'}"/>
+                                      <div t-esc="posicion['barcode']" t-options="{'widget': 'barcode','width': 600, 'height': 150, 'img_style': 'width:70px;height:10px;'}"/>
+                                    </td>
+                                  </tr>
+
+                                  <tr>
+                                    <td align="center" >
+                                      <font style="font-size: 5px"><span style="font-size: 5px" t-esc="posicion['qty_done']"/></font>
+                                      <font style="font-size: 5px"><span style="font-size: 5px" t-esc="posicion['uom_id']"/></font>
                                     </td>
                                   </tr>
 

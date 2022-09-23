@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <template id="label_code_price">
+
+          <t t-call="web.html_container">
+              <t t-if="dicc_products_price">
+                <t t-foreach="dicc_products_price" t-as="llave">
+                  <t t-foreach="dicc_products_price[llave]" t-as="posicion">
+
+                      <div class="page">
+                        <style>
+                          table {
+                            margin-bottom: 0px;
+                            margin-top: 0px;
+                            height:68px;
+                            width:100%;
+                            align:center;
+                          }
+                          .centered {
+                            <!-- position: absolute; /* or absolute */ -->
+                            top: 5%;
+                            left: 5%;
+                          }
+                        </style>
+                        <t t-set="i" t-value="1"/>
+                        <div >
+                          <table style="margin-top:0.02mm" class="centered">
+                              <tr>
+                                <td align="center">
+                                    <font  style="font-size: 8px; bold:True"><span t-esc="posicion['codigo']"/></font>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td align="center">
+                                    <font style="font-size: 5px"><span t-esc="posicion['descripcion']" style="align:center"/></font>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td align="center" >
+                                    <div  t-esc="posicion['codigo_barras']" t-options="{'widget': 'barcode','width': 600, 'height': 150, 'img_style': 'width:70px;height:22px;'}"/>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td align="center">
+                                    <!-- <span t-esc="i" style="font-size:10px"/> -->
+                                    <font style="font-size: 5px">Q<span t-esc="posicion['precio']" style="align:center"/></font>
+                                </td>
+                              </tr>
+                              <!-- <p style="page-break-after:always;">   </p> -->
+                          </table>
+
+                        </div>
+
+
+                      </div>
+
+                  </t>
+
+                </t>
+              </t>
+          </t>
+
+        </template>
+
+    </data>
+</odoo>
