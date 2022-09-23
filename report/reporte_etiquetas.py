@@ -7,7 +7,7 @@ import logging
 
 
 class ReporteEtiquetaSinPrecio (models.AbstractModel):
-    _name='report.imporgesa.label_code_view'
+    _name='report.imporgesa.label_code_so'
     _description='Creado para la etiqueta sin precio'
 
     def creacion_datos(self, orders):
@@ -36,11 +36,12 @@ class ReporteEtiquetaSinPrecio (models.AbstractModel):
             'dicc_products': dicc_products,
         }
 
-class ReporteEtiquetaConPrecio (models.AbstractModel):
-    _name='report.imporgesa.label_code_price_view'
+class ReporteEtiquetaConPrecioSO(models.AbstractModel):
+    _name='report.imporgesa.label_code_price_so'
     _description='Creado para la etiqueta con precio'
 
     def creacion_datos(self, orders):
+        logging.warning('inicio')
         dicc_products_price={}
         for order in orders:
             for linea in order.order_line:
@@ -54,12 +55,18 @@ class ReporteEtiquetaConPrecio (models.AbstractModel):
                         'precio':linea.product_id.list_price,
                         'codigo_barras': linea.product_id.barcode
                         })
+        logging.warning('dicc_products_price')
+        logging.warning(dicc_products_price)
         return dicc_products_price
 
     @api.model
     def _get_report_values(self, docids, data=None):
         docs = self.env['sale.order'].browse(docids)
         dicc_products_price = self.creacion_datos(docs)
+        logging.warning('docs--------------------')
+        logging.warning(docids)
+        logging.warning(docs)
+        logging.warning(dicc_products_price)
         return {
             'doc_ids': docids,
             'doc_model': 'sale.order',
@@ -68,7 +75,7 @@ class ReporteEtiquetaConPrecio (models.AbstractModel):
         }
 
 class ReporteEtiquetaUnica (models.AbstractModel):
-    _name='report.imporgesa.label_code_lines_view'
+    _name='report.imporgesa.label_code_lines_so'
     _description='Creado para solo una etiqueta por linea'
 
     def creacion_datos(self, orders):

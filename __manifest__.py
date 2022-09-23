@@ -14,7 +14,7 @@
     'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['product','base','sale', 'stock'],
+    'depends': ['product','base','sale', 'stock', 'sucasa'],
 
     'data': [
         'security/ir.model.access.csv',
@@ -30,10 +30,13 @@
         'wizard/recuperacion_pagos_wizard_views.xml',
         'wizard/reporte_ventas_wizard_views.xml',
         'wizard/reporte_inventario_wizard_views.xml',
-        'report/label_code_price_view.xml',
+        'report/label_code_price.xml',
         'report/label_code_view.xml',
+        'report/label_code_price_two_view.xml',
+        'report/label_code_two_view.xml',
         'report/stock_report_views.xml',
         'report/label_code_lines_view.xml',
+        'report/label_code_lines_two_view.xml',
         'report/sale_report.xml'
     ],
     'qweb': [

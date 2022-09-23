@@ -2,7 +2,7 @@
 <odoo>
     <data>
 
-      <record id="paperformat_label_code_price_sheet" model="report.paperformat">
+      <!-- <record id="paperformat_label_code_price_sheet" model="report.paperformat">
             <field name="name">Etiqueta 3 x 2</field>
             <field name="default" eval="True" />
             <field name="format">custom</field>
@@ -15,15 +15,15 @@
             <field name="margin_right">0</field>
             <field name="disable_shrinking" eval="True"/>
             <field name="dpi">96</field>
-      </record>
+      </record> -->
 
 
         <record id="action_report_sale_label_with_price" model="ir.actions.report">
             <field name="name">3 x 2 con precio</field>
             <field name="model">sale.order</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">imporgesa.label_code_price_view</field>
-            <field name="report_file">imporgesa.label_code_price_view</field>
+            <field name="report_name">imporgesa.label_code_price_so</field>
+            <field name="report_file">imporgesa.label_code_price_so</field>
             <field name="paperformat_id" ref="imporgesa.paperformat_label_code_price_sheet"/>
             <field name="print_report_name">(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)</field>
             <field name="binding_model_id" ref="model_sale_order"/>
@@ -34,8 +34,8 @@
             <field name="name">3 x 2</field>
             <field name="model">sale.order</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">imporgesa.label_code_view</field>
-            <field name="report_file">imporgesa.label_code_view</field>
+            <field name="report_name">imporgesa.label_code_so</field>
+            <field name="report_file">imporgesa.label_code_so</field>
             <field name="paperformat_id" ref="imporgesa.paperformat_label_code_price_sheet"/>
             <field name="print_report_name">(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)</field>
             <field name="binding_model_id" ref="model_sale_order"/>
@@ -47,8 +47,8 @@
             <field name="name">3 x 2 linea</field>
             <field name="model">sale.order</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">imporgesa.label_code_lines_view</field>
-            <field name="report_file">imporgesa.label_code_lines_view</field>
+            <field name="report_name">imporgesa.label_code_lines_so</field>
+            <field name="report_file">imporgesa.label_code_lines_so</field>
             <field name="paperformat_id" ref="imporgesa.paperformat_label_code_price_sheet"/>
             <field name="print_report_name">(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)</field>
             <field name="binding_model_id" ref="model_sale_order"/>
