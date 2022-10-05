@@ -11,9 +11,12 @@ class AccountPaymentRegister(models.TransientModel):
     _inherit = 'account.payment.register'
 
     vendedor_id = fields.Many2one('res.partner', 'Vendedor')
+    descripcion = fields.Char('Descripción')
 
     def _create_payment_vals_from_wizard(self):
         vals = super()._create_payment_vals_from_wizard()
         if self.vendedor_id.id:
             vals.update({'vendedor_id': self.vendedor_id.id})
+        if self.descripcion:
+            vals.update({'descripcion': self.descripcion})
         return vals

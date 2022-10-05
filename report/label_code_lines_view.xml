@@ -40,15 +40,15 @@
                                   </tr>
 
                                   <tr>
-                                    <td align="center" >
+                                    <td align="center">
                                       <div t-esc="posicion['barcode']" t-options="{'widget': 'barcode','width': 600, 'height': 150, 'img_style': 'width:70px;height:10px;'}"/>
                                     </td>
                                   </tr>
 
                                   <tr>
-                                    <td align="center" >
-                                      <font style="font-size: 5px"><span style="font-size: 5px" t-esc="posicion['qty_done']"/></font>
-                                      <font style="font-size: 5px"><span style="font-size: 5px" t-esc="posicion['uom_id']"/></font>
+                                    <td align="center">
+                                      <font style="font-size: 5px"><span t-esc="posicion['qty_done']"/></font>
+                                      <font style="font-size: 5px"><span t-esc="posicion['uom_id']"/></font>
                                     </td>
                                   </tr>
 

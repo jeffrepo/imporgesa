@@ -18,9 +18,9 @@
 
     'data': [
         'security/ir.model.access.csv',
-        'views/product_template_views.xml',
+        # 'views/product_template_views.xml',
         'views/product_views.xml',
-        'views/product_template_views.xml',
+        # 'views/product_template_views.xml',
         'views/res_partner_views.xml',
         'views/account_report.xml',
         'views/account_journal_views.xml',
