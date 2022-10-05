@@ -8,7 +8,7 @@
             <!-- <span t-esc="dicc_products"/> -->
               <t t-if="dicc_products" >
                 <t t-foreach="dicc_products" t-as="llave">
-                    <t t-foreach="dicc_products[llave]" t-as="posicion">
+                    <t t-foreach="llave" t-as="posicion">
 
                       <div class="page">
                         <style>
