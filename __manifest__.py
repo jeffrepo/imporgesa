@@ -37,6 +37,7 @@
         'report/stock_report_views.xml',
         'report/label_code_lines_view.xml',
         'report/label_code_lines_two_view.xml',
+        'views/res_config_settings_views.xml',
         'report/sale_report.xml'
     ],
     'qweb': [
