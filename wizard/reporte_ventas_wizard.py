@@ -35,7 +35,8 @@ class ReporteVentasWizard(models.TransientModel):
             formato_titulo = libro.add_format({'size': 11, 'color':'#0d354d', 'align':'center', 'fg_color':'#ffffff', 'bold':False})
             #Tamaño de las columnas
             hoja.set_column('A:Y', 20)
-
+            date_format= libro.add_format({'num_format': 'd mmm yyyy'})
+            
             hoja.write(1, 0, 'Fecha', formato_titulo)
             hoja.write(1, 1, 'Correlativo interno', formato_titulo)
             hoja.write(1, 2, 'Numero', formato_titulo)
@@ -90,7 +91,7 @@ class ReporteVentasWizard(models.TransientModel):
                 direccion = ' '.join(direccion)
 
                 for linea in factura.invoice_line_ids:
-                    hoja.write(fila, 0, factura.invoice_date.strftime('%d/%m/%Y'))
+                    hoja.write(fila, 0, factura.invoice_date.strftime('%d/%m/%Y'), date_format)
                     hoja.write(fila, 1, factura.name)
                     if factura.fel_serie and factura.fel_numero:
                         hoja.write(fila, 2, factura.fel_numero)
