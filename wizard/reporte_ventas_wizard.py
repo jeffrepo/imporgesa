@@ -69,7 +69,8 @@ class ReporteVentasWizard(models.TransientModel):
             facturas = self.env['account.move'].search([
             ('invoice_date', '>=', w.fecha_inicio),
             ('invoice_date', '<=', w.fecha_fin),
-            ('journal_id','=', w.diario_ids.ids), 
+            ('journal_id','=', w.diario_ids.ids),
+            ('state','=', 'posted'), 
             ('move_type', 'in', tipo_factura)])
 
             fila=2
