@@ -10,7 +10,7 @@
                     <group>
                         <field name="fecha_inicio"/>
                         <field name="fecha_fin"/>
-                        <field name="diario_ids" widget="many2many_tags" domain="[('type', '=', 'sale')]" required="True"
+                        <field name="diario_ids" widget="many2many_tags" domain="[('type', '=', 'sale')]" required="True"/>
                     </group>
                     <group>
                         <field name="name" invisible="1"/>
