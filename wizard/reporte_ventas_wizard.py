@@ -16,6 +16,7 @@ class ReporteVentasWizard(models.TransientModel):
     fecha_fin = fields.Date('Fecha fin')
     name = fields.Char('Nombre archivo', size=32)
     archivo = fields.Binary('Archivo', filters='.xls')
+    diario_ids = fields.Many2many('account.journal',string='Diarios de venta')
 
     def print_report(self):
         data = {
@@ -68,6 +69,7 @@ class ReporteVentasWizard(models.TransientModel):
             facturas = self.env['account.move'].search([
             ('invoice_date', '>=', w.fecha_inicio),
             ('invoice_date', '<=', w.fecha_fin),
+            ('journal_id','=', w.diario_ids.ids), 
             ('move_type', 'in', tipo_factura)])
 
             fila=2
