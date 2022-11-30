@@ -6,7 +6,7 @@ import base64
 import io
 import logging
 from datetime import datetime
-import datetime
+# import datetime
 
 class ReporteVentasWizard(models.TransientModel):
     _name = 'imporgesa.reporte_ventas.wizard'
@@ -16,6 +16,7 @@ class ReporteVentasWizard(models.TransientModel):
     fecha_fin = fields.Date('Fecha fin')
     name = fields.Char('Nombre archivo', size=32)
     archivo = fields.Binary('Archivo', filters='.xls')
+    diario_ids = fields.Many2many('account.journal',string='Diarios de venta')
 
     def print_report(self):
         data = {
@@ -46,28 +47,29 @@ class ReporteVentasWizard(models.TransientModel):
             hoja.write(1, 7, 'Categoría producto', formato_titulo)
             hoja.write(1, 8, 'Cantidad', formato_titulo)
             hoja.write(1, 9, 'Precio', formato_titulo)
-            hoja.write(1, 10, 'Subtotal venta', formato_titulo)
-            hoja.write(1, 11, 'Total venta', formato_titulo)
-            hoja.write(1, 12, 'Costo', formato_titulo)
-            hoja.write(1, 13, 'Subtotal costo', formato_titulo)
-            hoja.write(1, 14, 'Cliente', formato_titulo)
-            hoja.write(1, 15, 'NIT', formato_titulo)
-            hoja.write(1, 16, 'Giro de negocio', formato_titulo)
-            hoja.write(1, 17, 'Direccion', formato_titulo)
-            hoja.write(1, 18, 'Departamento', formato_titulo)
-            hoja.write(1, 19, 'Saldo', formato_titulo)
-            hoja.write(1, 20, 'Utilidad', formato_titulo)
-            hoja.write(1, 21, 'Margen', formato_titulo)
-            hoja.write(1, 22, 'Vendedor', formato_titulo)
-            hoja.write(1, 23, 'Correo electrónico', formato_titulo)
-            hoja.write(1, 24, 'Teléfono', formato_titulo)
-            hoja.write(1, 25, 'Celular', formato_titulo)
+            hoja.write(1, 10, 'Subtotal venta sin IVA', formato_titulo)
+            # hoja.write(1, 11, 'Total venta', formato_titulo)
+            hoja.write(1, 11, 'Costo', formato_titulo)
+            hoja.write(1, 12, 'Subtotal costo', formato_titulo)
+            hoja.write(1, 13, 'Cliente', formato_titulo)
+            hoja.write(1, 14, 'NIT', formato_titulo)
+            hoja.write(1, 15, 'Giro de negocio', formato_titulo)
+            hoja.write(1, 16, 'Direccion', formato_titulo)
+            hoja.write(1, 17, 'Departamento', formato_titulo)
+            hoja.write(1, 18, 'Saldo', formato_titulo)
+            hoja.write(1, 19, 'Utilidad', formato_titulo)
+            hoja.write(1, 20, 'Margen', formato_titulo)
+            hoja.write(1, 21, 'Vendedor', formato_titulo)
+            hoja.write(1, 22, 'Correo electrónico', formato_titulo)
+            hoja.write(1, 23, 'Teléfono', formato_titulo)
+            hoja.write(1, 24, 'Celular', formato_titulo)
 
             tipo_factura = ['out_invoice', 'out_refund']
 
             facturas = self.env['account.move'].search([
             ('invoice_date', '>=', w.fecha_inicio),
             ('invoice_date', '<=', w.fecha_fin),
+            ('journal_id','=', w.diario_ids.ids),
             ('move_type', 'in', tipo_factura)])
 
             fila=2
@@ -90,7 +92,9 @@ class ReporteVentasWizard(models.TransientModel):
                 direccion = ' '.join(direccion)
 
                 for linea in factura.invoice_line_ids:
-                    hoja.write(fila, 0, factura.invoice_date.strftime('%d/%m/%Y'))
+                    format3 = libro.add_format({'num_format': 'dd/mm/yy'})
+                    hoja.write(fila, 0, factura.invoice_date, format3)
+
                     hoja.write(fila, 1, factura.name)
                     if factura.fel_serie and factura.fel_numero:
                         hoja.write(fila, 2, factura.fel_numero)
@@ -106,16 +110,16 @@ class ReporteVentasWizard(models.TransientModel):
                         hoja.write(fila, 8, linea.quantity)
                         hoja.write(fila, 9, linea.price_unit)
                         hoja.write(fila, 10, linea.price_subtotal)
-                        hoja.write(fila, 11, linea.price_total)
-                        hoja.write(fila, 12, linea.product_id.standard_price)
+                        # hoja.write(fila, 11, linea.price_total)
+                        hoja.write(fila, 11, linea.product_id.standard_price)
                         subtotal_costo = round(linea.product_id.standard_price * linea.quantity,2)
-                        hoja.write(fila, 13, subtotal_costo)
+                        hoja.write(fila, 12, subtotal_costo)
 
-                        hoja.write(fila, 19, factura.amount_residual)
+                        hoja.write(fila, 18, factura.amount_residual)
                         utilidad = linea.price_total - subtotal_costo
-                        hoja.write(fila, 20, utilidad)
+                        hoja.write(fila, 19, utilidad)
                         margen = round(utilidad / linea.price_total,2)
-                        hoja.write(fila, 21, margen)
+                        hoja.write(fila, 20, margen)
 
                     elif factura.move_type == 'out_refund' and factura.state == 'posted':
                         quantity = linea.quantity * -1
@@ -125,17 +129,17 @@ class ReporteVentasWizard(models.TransientModel):
                         price_total = linea.price_total * -1
                         price_subtotal = linea.price_subtotal *-1
                         hoja.write(fila, 10, price_subtotal)
-                        hoja.write(fila, 11, price_total)
+                        # hoja.write(fila, 11, price_total)
                         standard_price = linea.product_id.standard_price * -1
-                        hoja.write(fila, 12, standard_price)
+                        hoja.write(fila, 11, standard_price)
                         subtotal_costo = round(linea.product_id.standard_price * linea.quantity,2)
                         subtotal_costo = subtotal_costo * -1
-                        hoja.write(fila, 13, subtotal_costo)
+                        hoja.write(fila, 12, subtotal_costo)
                         amount_residual = factura.amount_residual * -1
-                        hoja.write(fila, 19, amount_residual)
+                        hoja.write(fila, 18, amount_residual)
                         utilidad = linea.price_total - subtotal_costo
                         utilidad = utilidad * -1
-                        hoja.write(fila, 20, utilidad)
+                        hoja.write(fila, 19, utilidad)
                         margen = round(utilidad / linea.price_total,2)
                         margen = margen * -1
                         hoja.write(fila, 21, margen)
@@ -143,30 +147,30 @@ class ReporteVentasWizard(models.TransientModel):
                         hoja.write(fila, 8, int(0))
                         hoja.write(fila, 9, int(0))
                         hoja.write(fila, 10, int(0))
+                        # hoja.write(fila, 11, int(0))
                         hoja.write(fila, 11, int(0))
                         hoja.write(fila, 12, int(0))
-                        hoja.write(fila, 13, int(0))
+                        hoja.write(fila, 19, int(0))
                         hoja.write(fila, 20, int(0))
                         hoja.write(fila, 21, int(0))
-                        hoja.write(fila, 22, int(0))
                     else:
                         continue
 
-                    hoja.write(fila, 14, factura.partner_id.name)
+                    hoja.write(fila, 13, factura.partner_id.name)
                     if factura.partner_id.vat:
-                        hoja.write(fila, 15, factura.partner_id.vat)
+                        hoja.write(fila, 14, factura.partner_id.vat)
                     if factura.partner_id.giro_negocio_id:
-                        hoja.write(fila, 16, factura.partner_id.giro_negocio_id.name)
-                    hoja.write(fila, 17, direccion)
-                    hoja.write(fila, 18, factura.partner_id.state_id.name)
+                        hoja.write(fila, 15, factura.partner_id.giro_negocio_id.name)
+                    hoja.write(fila, 16, direccion)
+                    hoja.write(fila, 17, factura.partner_id.state_id.name)
 
 
                     if factura.partner_id.email:
-                        hoja.write(fila, 23, factura.partner_id.email)
+                        hoja.write(fila, 22, factura.partner_id.email)
                     if factura.partner_id.phone:
-                        hoja.write(fila, 24, factura.partner_id.phone)
+                        hoja.write(fila, 23, factura.partner_id.phone)
                     if factura.partner_id.mobile:
-                        hoja.write(fila, 25, factura.partner_id.mobile)
+                        hoja.write(fila, 24, factura.partner_id.mobile)
 
                     fila+=1
 
