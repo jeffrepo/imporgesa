@@ -10,9 +10,9 @@
               <div class="col-12 col-lg-6 o_setting_box" id="margen_venta_class">
                   <div class="o_setting_left_pane"/>
                   <div class="o_setting_right_pane">
-                      <span class="o_form_label">Margen de venta</span>
+                      <span class="o_form_label">Margen mínimo para vendedores</span>
                       <div class="text-muted">
-                          Margen de venta
+                          Margen mínimo para vendedores
                       </div>
                       <div class="text-muted">
                           <field name="margen_venta"/>
