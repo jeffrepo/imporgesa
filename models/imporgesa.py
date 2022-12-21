@@ -13,11 +13,10 @@ class AccountInvoiceReport(models.Model):
 
     default_code = fields.Char(string='Referencia interna', readonly=True)
     nombre_producto = fields.Char(string='Nombre de producto', readonly=True)
-    subtotal_costo = fields.Float(string='Subtotal costo', readonly=True)
-    subtotal_utilidad = fields.Float(string='Subtotal utilidad', readonly=True)
-    margen = fields.Float(string="Margen %", readonly=True, group_operator="avg")
+    subtotal_costo = fields.Float(string='Subtotal costo', readonly=True, groups=('base.group_erp_manager'))
+    subtotal_utilidad = fields.Float(string='Subtotal utilidad', readonly=True, groups=('base.group_erp_manager'))
+    margen = fields.Float(string="Margen %", readonly=True, group_operator="avg", groups=('base.group_erp_manager'))
     numero_factura = fields.Char(string="Numero de factura", readonly=True)
-
 
     def _select(self):
         select_str = super(AccountInvoiceReport, self)._select()
