@@ -23,9 +23,9 @@ class AccountInvoiceReport(models.Model):
         select_str += """
                 ,template.default_code as default_code,
                 template.name as nombre_producto,
-                (prop.value_float * line.quantity)  as subtotal_costo,
-                (-line.balance * currency_table.rate)-(prop.value_float * line.quantity) as subtotal_utilidad,
-                ((((-line.balance * currency_table.rate)-(prop.value_float * line.quantity)) / (-line.balance * currency_table.rate))*100) as margen,
+                (prop.value_float * line.quantity) * (CASE WHEN move.move_type IN ('out_refund') THEN -1 ELSE 1 END)  as subtotal_costo,
+                ((-line.balance *(CASE WHEN move.move_type IN ('out_refund') THEN -1 ELSE 1 END)* currency_table.rate)-(prop.value_float * line.quantity)) * (CASE WHEN move.move_type IN ('out_refund') THEN -1 ELSE 1 END) as subtotal_utilidad,
+                ((((-line.balance *(CASE WHEN move.move_type IN ('out_refund') THEN -1 ELSE 1 END) * currency_table.rate)-(prop.value_float * line.quantity)) / (-line.balance * currency_table.rate))*100) as margen,
                 CONCAT(move.fel_serie, '-', move.fel_numero) AS numero_factura
             """
         return select_str
