@@ -45,7 +45,8 @@ class RecuperacionPagosWizard(models.TransientModel):
             hoja.write(1, 3, 'Descripción', formato_titulo)
             hoja.write(1, 4, 'Monto', formato_titulo)
             # hoja.write(1, 5, 'Forma de pago', formato_titulo)
-            hoja.write(1, 5, 'Usuario que recupero', formato_titulo)
+            #hoja.write(1, 5, 'Usuario que recupero', formato_titulo)
+            hoja.write(1, 5, 'Comercial del pago', formato_titulo)
             hoja.write(1, 6, 'Correlativo factura', formato_titulo)
             hoja.write(1, 7, 'Fecha factura', formato_titulo)
             hoja.write(1, 8, 'Saldo factura', formato_titulo)
@@ -53,7 +54,7 @@ class RecuperacionPagosWizard(models.TransientModel):
             hoja.write(1, 10, 'NIT', formato_titulo)
             hoja.write(1, 11, 'Sucursal', formato_titulo)
             hoja.write(1, 12, 'Días de recuperación', formato_titulo)
-            hoja.write(1, 13, 'Porcentajes de recuperación', formato_titulo)
+            #hoja.write(1, 13, 'Porcentajes de recuperación', formato_titulo)
 
             pagos = self.env['account.payment'].search([('date', '>=', w.fecha_inicio), ('date', '<=', w.fecha_fin), ('payment_type', '=', 'inbound')])
 
@@ -66,8 +67,10 @@ class RecuperacionPagosWizard(models.TransientModel):
                 if pago.descripcion:
                     hoja.write(fila, 3, pago.descripcion)
                 hoja.write(fila, 4, pago.amount)
-                if pago.vendedor_id:
-                    hoja.write(fila, 5, pago.vendedor_id.name)
+                #if pago.vendedor_id:
+                    #hoja.write(fila, 5, pago.vendedor_id.name)
+                if pago.invoice_user_id:
+                    hoja.write(fila, 5, pago.invoice_user_id.name)
                 if pago.reconciled_invoices_count:
                     fel_serie_fel_numero = ''
                     for factura in pago.reconciled_invoice_ids:
@@ -82,14 +85,20 @@ class RecuperacionPagosWizard(models.TransientModel):
                         hoja.write(fila, 11, factura.journal_id.name)
                         dias_recuperacion = pago.date - factura.invoice_date
                         hoja.write(fila, 12, dias_recuperacion)
-                        if pago.vendedor_id and pago.journal_id.pago_comisiones:
-                            for linea in pago.journal_id.pago_comisiones:
-                                if pago.vendedor_id.id == linea.vendedor_id.id:
-                                    logging.warning(pago.vendedor_id.name)
-                                    logging.warning(linea.vendedor_id.id)
-                                    porcentaje = linea.comision / 100
-                                    porcentaje_comision = round(pago.amount * porcentaje,2)
-                                    hoja.write(fila, 13, porcentaje_comision)
+                        # if pago.invoice_user_id and pago.journal_id.pago_comisiones:
+                        #     for linea in pago.journal_id.pago_comisiones:
+                        #         if pago.invoice_user_id.id == linea.vendedor_id.id:
+                        #             porcentaje = linea.comision / 100
+                        #             porcentaje_comision = round(pago.amount * porcentaje,2)                                    
+                        # 
+                        # if pago.vendedor_id and pago.journal_id.pago_comisiones:
+                        #     for linea in pago.journal_id.pago_comisiones:
+                        #         if pago.vendedor_id.id == linea.vendedor_id.id:
+                        #             logging.warning(pago.vendedor_id.name)
+                        #             logging.warning(linea.vendedor_id.id)
+                        #             porcentaje = linea.comision / 100
+                        #             porcentaje_comision = round(pago.amount * porcentaje,2)
+                                    #hoja.write(fila, 13, porcentaje_comision)
 
                 fila+=1
             libro.close()
