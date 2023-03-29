@@ -70,8 +70,12 @@ class RecuperacionPagosWizard(models.TransientModel):
                 hoja.write(fila, 4, pago.amount)
                 #if pago.vendedor_id:
                     #hoja.write(fila, 5, pago.vendedor_id.name)
+                comercial = False
                 if pago.partner_id.user_id:
-                    hoja.write(fila, 5, pago.partner_id.user_id.name)
+                    comercial = pago.partner_id.user_id.name
+                if comercial == False:
+                    comercial = pago.partner_id.create_uid.name
+                hoja.write(fila, 5, comercial)
                 if pago.reconciled_invoices_count:
                     fel_serie_fel_numero = ''
                     for factura in pago.reconciled_invoice_ids:
