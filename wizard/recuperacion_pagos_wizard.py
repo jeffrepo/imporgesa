@@ -46,18 +46,21 @@ class RecuperacionPagosWizard(models.TransientModel):
             hoja.write(1, 4, 'Monto', formato_titulo)
             # hoja.write(1, 5, 'Forma de pago', formato_titulo)
             #hoja.write(1, 5, 'Usuario que recupero', formato_titulo)
-            hoja.write(1, 5, 'Comercial del pago', formato_titulo)
+            hoja.write(1, 5, 'Comercial', formato_titulo)
             hoja.write(1, 6, 'Establecimiento', formato_titulo)
-            hoja.write(1, 7, 'Correlativo factura', formato_titulo)
-            hoja.write(1, 8, 'Fecha factura', formato_titulo)
-            hoja.write(1, 9, 'Saldo factura', formato_titulo)
-            hoja.write(1, 10, 'Cliente', formato_titulo)
-            hoja.write(1, 11, 'NIT', formato_titulo)
-            hoja.write(1, 12, 'Sucursal', formato_titulo)
-            hoja.write(1, 13, 'Días de recuperación', formato_titulo)
+            hoja.write(1, 7, 'Numero pedido', formato_titulo)
+            hoja.write(1, 8, 'Correlativo interno', formato_titulo)
+            hoja.write(1, 9, 'Correlativo factura', formato_titulo)
+            hoja.write(1, 10, 'Fecha factura', formato_titulo)
+            hoja.write(1, 11, 'Saldo factura', formato_titulo)
+            hoja.write(1, 12, 'Cliente', formato_titulo)
+            hoja.write(1, 13, 'NIT', formato_titulo)
+            hoja.write(1, 14, 'Sucursal', formato_titulo)
+            hoja.write(1, 15, 'Días de recuperación', formato_titulo)
             #hoja.write(1, 13, 'Porcentajes de recuperación', formato_titulo)
 
-            pagos = self.env['account.payment'].search([('date', '>=', w.fecha_inicio), ('date', '<=', w.fecha_fin), ('payment_type', '=', 'inbound')])
+            pagos = self.env['account.payment'].search([('date', '>=', w.fecha_inicio), ('date', '<=', w.fecha_fin), ('payment_type', '=', 'inbound'),('is_internal_transfer','=', False)])
+
 
             fila=2
             for pago in pagos:
@@ -83,14 +86,16 @@ class RecuperacionPagosWizard(models.TransientModel):
                             fel_serie_fel_numero = str(factura.fel_serie)+'-'+str(factura.fel_numero)
                         fecha_factura = factura.invoice_date.strftime('%d/%m/%Y')
                         hoja.write(fila, 6, factura.journal_id.name)
-                        hoja.write(fila, 7, fel_serie_fel_numero)
-                        hoja.write(fila, 8, fecha_factura)
-                        hoja.write(fila, 9, factura.amount_residual)
-                        hoja.write(fila, 10, factura.partner_id.name)
-                        hoja.write(fila, 11, factura.partner_id.vat)
-                        hoja.write(fila, 12, factura.journal_id.name)
+                        hoja.write(fila, 7, factura.invoice_origin)
+                        hoja.write(fila, 8, factura.name)
+                        hoja.write(fila, 9, fel_serie_fel_numero)
+                        hoja.write(fila, 10, fecha_factura)
+                        hoja.write(fila, 11, factura.amount_residual)
+                        hoja.write(fila, 12, factura.partner_id.name)
+                        hoja.write(fila, 13, factura.partner_id.vat)
+                        hoja.write(fila, 14, factura.journal_id.name)
                         dias_recuperacion = pago.date - factura.invoice_date
-                        hoja.write(fila, 13, dias_recuperacion)
+                        hoja.write(fila, 15, dias_recuperacion)
                         # if pago.invoice_user_id and pago.journal_id.pago_comisiones:
                         #     for linea in pago.journal_id.pago_comisiones:
                         #         if pago.invoice_user_id.id == linea.vendedor_id.id:
