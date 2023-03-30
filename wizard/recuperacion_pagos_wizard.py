@@ -84,6 +84,7 @@ class RecuperacionPagosWizard(models.TransientModel):
                     for factura in pago.reconciled_invoice_ids:
                         if factura.fel_serie and factura.fel_numero:
                             fel_serie_fel_numero = str(factura.fel_serie)+'-'+str(factura.fel_numero)
+<<<<<<< HEAD
                         fecha_factura = factura.invoice_date.strftime('%d/%m/%Y')
                         hoja.write(fila, 6, factura.journal_id.name)
                         hoja.write(fila, 7, factura.invoice_origin)
@@ -96,6 +97,37 @@ class RecuperacionPagosWizard(models.TransientModel):
                         hoja.write(fila, 14, factura.journal_id.name)
                         dias_recuperacion = pago.date - factura.invoice_date
                         hoja.write(fila, 15, dias_recuperacion)
+=======
+                            fecha_pago = pago.date.strftime('%d/%m/%Y')
+                            hoja.write(fila, 0, pago.date, date_format)
+                            hoja.write(fila, 1, pago.name)
+                            hoja.write(fila, 2, pago.journal_id.name)
+                            if pago.descripcion:
+                                hoja.write(fila, 3, pago.descripcion)
+                            hoja.write(fila, 4, pago.amount)
+                            hoja.write(fila, 5, factura.amount_untaxed_signed)
+                            #if pago.vendedor_id:
+                                #hoja.write(fila, 5, pago.vendedor_id.name)
+                            comercial = False
+                            if pago.partner_id.user_id:
+                                comercial = pago.partner_id.user_id.name
+                            if comercial == False:
+                                comercial = pago.partner_id.create_uid.name
+                            hoja.write(fila, 6, comercial)
+                            fecha_factura = factura.invoice_date.strftime('%d/%m/%Y')
+                            hoja.write(fila, 7, factura.journal_id.name)
+                            hoja.write(fila, 8, factura.invoice_origin)
+                            hoja.write(fila, 9, factura.name)
+                            hoja.write(fila, 10, fel_serie_fel_numero)
+                            hoja.write(fila, 11, factura.invoice_date, date_format) #aqui iba fecha factura :/
+                            hoja.write(fila, 12, factura.amount_residual)
+                            hoja.write(fila, 13, factura.partner_id.name)
+                            hoja.write(fila, 14, factura.partner_id.vat)
+                            hoja.write(fila, 15, factura.journal_id.name)
+                            dias_recuperacion = pago.date - factura.invoice_date
+                            hoja.write(fila, 16, dias_recuperacion)
+                            #agregando un comentario
+>>>>>>> 6a44602 (Conflicto #1)
                         # if pago.invoice_user_id and pago.journal_id.pago_comisiones:
                         #     for linea in pago.journal_id.pago_comisiones:
                         #         if pago.invoice_user_id.id == linea.vendedor_id.id:
