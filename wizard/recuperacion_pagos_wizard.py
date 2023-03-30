@@ -35,6 +35,7 @@ class RecuperacionPagosWizard(models.TransientModel):
             f = io.BytesIO()
             libro = xlsxwriter.Workbook(f)
             hoja = libro.add_worksheet('Recuperación de pagos')
+            date_format = libro.add_format({'num_format': 'dd/mm/yyyy'})
             formato_titulo = libro.add_format({'size': 11, 'color':'#0d354d', 'align':'center', 'fg_color':'#ffffff', 'bold':False})
             #Tamaño de las columnas
             hoja.set_column('A:N', 20)
