@@ -69,7 +69,7 @@ class RecuperacionPagosWizard(models.TransientModel):
                 if pago.reconciled_invoices_count:
                     fel_serie_fel_numero = ''
                     for factura in pago.reconciled_invoice_ids:
-                        if factura.fel_serie and factura.fel_numero:
+                        if factura.fel_serie and factura.fel_numero and factura.state != 'cancel':
                             fel_serie_fel_numero = str(factura.fel_serie)+'-'+str(factura.fel_numero)
 
                             fecha_pago = pago.date.strftime('%d/%m/%Y')
