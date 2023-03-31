@@ -78,8 +78,18 @@ class RecuperacionPagosWizard(models.TransientModel):
                             hoja.write(fila, 2, pago.journal_id.name)
                             if pago.descripcion:
                                 hoja.write(fila, 3, pago.descripcion)
-                            hoja.write(fila, 4, pago.amount)
-                            hoja.write(fila, 5, factura.amount_untaxed_signed)      
+                                
+                            pagos_relacionados_factura = factura._get_reconciled_info_JSON_values()
+                            monto_pagado = 0
+                            if len(pagos_relacionados_factura) > 0:
+                                for pago_relacionado in pagos_relacionados_factura:
+                                    if pago.id == pago_relacionado['account_payment_id']:
+                                        monto_pagado = pago_relacionado['amount']                                
+                            hoja.write(fila, 4, monto_pagado)
+                            monto_pagado_sin_iva = 0
+                            if monto_pagado > 0:
+                                monto_pagado_sin_iva = monto_pagado / 1.12
+                            hoja.write(fila, 5, round(monto_pagado_sin_iva,2))    
                             
                             comercial = False
                             if pago.partner_id.user_id:
