@@ -9,6 +9,11 @@ class SaleOrder(models.Model):
 
     margin = fields.Monetary("Margin", groups="base.group_erp_manager")
     margin_percent = fields.Float("Margin (%)", groups="base.group_erp_manager")
+    forma_entrega = fields.Selection([ ('Cargo Expreso', 'Cargo Expreso'),
+                                      ('Forza', 'Forza'),('COD Forza','COD Forza'),('Guatex', 'Guatex'),
+                                      ('Transporte propio', 'Transporte propio'),
+                                     ('Cliente recoge', 'Cliente recoge'),
+                                     ('Otro Transporte', 'Otro Transporte')],'Forma entrega')    
 
     def action_confirm(self):
         for sale in self:
