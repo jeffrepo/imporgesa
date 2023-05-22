@@ -13,7 +13,7 @@ class SaleOrder(models.Model):
                                       ('Forza', 'Forza'),('COD Forza','COD Forza'),('Guatex', 'Guatex'),
                                       ('Transporte propio', 'Transporte propio'),
                                      ('Cliente recoge', 'Cliente recoge'),
-                                     ('Otro Transporte', 'Otro Transporte')],'Forma entrega')    
+                                     ('Otro Transporte', 'Otro Transporte'),('no_aplica', 'No aplica')],'Forma entrega')    
 
     def action_confirm(self):
         for sale in self:
