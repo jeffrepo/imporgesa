@@ -2,6 +2,39 @@
 
 from odoo import api, fields, models, tools, _
 
+class ImporgesaTransaccion(models.Model):
+    _name = "imporgesa.transaccion"
+
+    venta_id = fields.Many2one('sale.order','Venta')
+    forma_pago_id = fields.Many2one('imporgesa.forma_pago','Forma de pago')
+    banco_id = fields.Many2one('imporgesa.banco', 'Banco')
+    numero_transaccion = fields.Char('Número de transacción')
+    monto = fields.Float('Monto')
+
+    @api.onchange('numero_transaccion')
+    def _revisar_numero_transaccion(self):
+        for line in self:
+            if line.numero_transaccion:
+                transaccion_venta_id = self.env['imporgesa.transaccion'].search([('numero_transaccion', '=', line.numero_transaccion)])
+                if transaccion_venta_id:
+                    mensaje = "La transaccion "+str(line.numero_transaccion) + " del banco "+ str(line.banco_id.name) +" de monto "+ str(line.monto)+" ya fue utilizada en el pedido " + str(transaccion_venta_id.venta_id.name) + " del cliente " +str(transaccion_venta_id.venta_id.partner_id.name)
+                    venta_id = self._context.get('venta_id')
+                    venta_search_id = self.env['sale.order'].search([('id','=',venta_id)])
+                    if venta_search_id:
+                        venta_search_id.message_post(body=mensaje)
+                    return {
+                        'warning': {'title': "Warning", 'message': mensaje},
+                    }
+
+class ImporgesaTransaccion(models.Model):
+    _name = "imporgesa.forma_pago"
+
+    name = fields.Char('Name')
+
+class ImporgesaBanco(models.Model):
+    _name = "imporgesa.banco"
+
+    name = fields.Char('Name')
 
 class ImporgesaGiroNegocio(models.Model):
     _name = "imporgesa.giro_negocio"
@@ -65,4 +98,3 @@ class AccountInvoiceReport(models.Model):
                     move.fel_numero
             """
         return where_str
-        

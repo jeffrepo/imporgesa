@@ -12,7 +12,31 @@ class SaleOrder(models.Model):
                                       ('Forza', 'Forza'),('COD Forza','COD Forza'),('Guatex', 'Guatex'),
                                       ('Transporte propio', 'Transporte propio'),
                                      ('Cliente recoge', 'Cliente recoge'),
-                                     ('Otro Transporte', 'Otro Transporte'),('no_aplica', 'No aplica')],'Forma entrega')    
+                                     ('Otro Transporte', 'Otro Transporte'),('no_aplica', 'No aplica')],'Forma entrega')
+    transaccion_ids = fields.One2many('imporgesa.transaccion','venta_id', string="Transaccion")
+    total_transaccion = fields.Monetary(string='Total transacciones', store=True, compute='_calculo_total', tracking=5)
+
+    @api.onchange('transaccion_ids.numero_transaccion')
+    def _revisar_numero_transaccion(self):
+        for line in self:
+            if line.numero_transaccion:
+                transaccion_venta_id = self.env['imporgesa.transaccion'].search([('numero_transaccion', '=', line.numero_transaccion)])
+                if transaccion_venta_id:
+                    mensaje = "La transacción "+str(line.numero_transaccion) + " del banco " + str(transaccion_venta_id.banco_id.name ) + " de monto "+ str(transaccion_venta_id.monto) +" ya fue utilizada en el " + str(transaccion_venta_id.venta_id.name) + " del cliente " + str(transaccion_venta_id.venta_id.partner_id.name)
+                    line.message_post(body=mensaje)
+                    return {
+                        'warning': {'title': "Warning", 'message': mensaje},
+                    }
+
+    @api.depends('transaccion_ids.monto')
+    def _calculo_total(self):
+        for order in self:
+            total = 0
+            for line in order.transaccion_ids:
+                total += line.monto
+            order.update({
+                'total_transaccion': total,
+            })
 
     def action_confirm(self):
         for sale in self:
@@ -27,7 +51,7 @@ class SaleOrder(models.Model):
             if product_zero and len(list_product) > 0:
                 raise UserError(_(
                     'Productos sin existencia: ' + ','.join(list_product) ))
-                
+
             if self.env.user.has_group('base.group_erp_manager') == False:
                 margen_venta = self.env['ir.config_parameter'].sudo().get_param('sale.margen_venta')
                 if float(margen_venta) > 0:
