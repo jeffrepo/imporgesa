@@ -18,7 +18,7 @@ class SaleOrder(models.Model):
 
     @api.onchange('transaccion_ids.numero_transaccion')
     def _revisar_numero_transaccion(self):
-        for line in self:
+        for line in self.transaccion_ids:
             if line.numero_transaccion:
                 transaccion_venta_id = self.env['imporgesa.transaccion'].search([('numero_transaccion', '=', line.numero_transaccion)])
                 if transaccion_venta_id:
