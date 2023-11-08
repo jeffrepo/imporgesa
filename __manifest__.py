@@ -23,6 +23,7 @@
         # 'views/product_template_views.xml',
         'views/res_partner_views.xml',
         'views/sale_views.xml',
+        'views/reporte_libro_diario_views.xml',
         'views/account_report.xml',
         'views/account_journal_views.xml',
         'views/account_payments_views.xml',
