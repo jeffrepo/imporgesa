@@ -14,7 +14,7 @@
     'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['product','base','sale', 'stock', 'sale_margin'],
+    'depends': ['product','base','sale', 'stock', 'sale_margin','account_gt'],
 
     'data': [
         'security/ir.model.access.csv',
