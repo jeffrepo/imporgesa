@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="imporgesa_sale_order_form" model="ir.ui.view">
+    <!--<record id="imporgesa_sale_order_form" model="ir.ui.view">
         <field name="name">imporgesa.sale.order.form</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
@@ -31,6 +31,6 @@
 
       </field>
 
-  </record>
+  </record>-->
 
 </odoo>
