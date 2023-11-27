@@ -2,6 +2,11 @@
 
 from odoo import api, fields, models, tools, _
 
+class ImporgesaProduct(models.Model):
+    _name = "imporgesa.product"
+
+    name = fields.Char('Name')
+
 class ImporgesaTransaccion(models.Model):
     _name = "imporgesa.transaccion"
 
