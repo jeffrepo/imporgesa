@@ -8,13 +8,15 @@ class SaleOrder(models.Model):
 
     margin = fields.Monetary("Margin", groups="base.group_erp_manager")
     margin_percent = fields.Float("Margin (%)", groups="base.group_erp_manager")
-    forma_entrega = fields.Selection([ ('Cargo Expreso', 'Cargo Expreso'),
+    forma_entrega = fields.Selection([ ('a_domicilio', 'A domicilio'), ('Cargo Expreso', 'Cargo Expreso'),
                                       ('Forza', 'Forza'),('COD Forza','COD Forza'),('Guatex', 'Guatex'),
                                       ('Transporte propio', 'Transporte propio'),
                                      ('Cliente recoge', 'Cliente recoge'),
                                      ('Otro Transporte', 'Otro Transporte'),('no_aplica', 'No aplica')],'Forma entrega')
     transaccion_ids = fields.One2many('imporgesa.transaccion','venta_id', string="Transaccion")
     total_transaccion = fields.Monetary(string='Total transacciones', store=True, compute='_calculo_total', tracking=5)
+    #entrega_id = fields.Many2one('imporgesa.entregas', 'Entrega')
+    #comentarios = fields.Char('Comentarios')
 
     @api.onchange('transaccion_ids.numero_transaccion')
     def _revisar_numero_transaccion(self):
