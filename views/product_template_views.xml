@@ -8,6 +8,10 @@
         <field name="arch" type="xml">
             <field name="barcode" position="after">
                 <field name="marca"/>
+                <field name="link_web"/>
+            </field>
+            <field name="uom_po_id" position="after">
+                <field name="descripcion_producto"/>
             </field>
         </field>
     </record>
