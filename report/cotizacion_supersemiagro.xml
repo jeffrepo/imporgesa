@@ -43,7 +43,7 @@
                           </div>
                           <div class="div_derecho" style="text-align:left">
                             <p align="right">
-                                <t style="font-size: 16px">Cotización On Line No: <t t-esc="o.name"/></t><br/>
+                                <t style="font-size: 16px">Cotización No: <t t-esc="o.name"/></t><br/>
                                 <t style="font-size: 14px">Guatemala, <span t-esc="convertir_fecha_hora(o.date_order)['fecha']" t-options='{"widget": "date"}'/></t><br/>
                             </p>
                           </div>
@@ -59,6 +59,14 @@
                                     <td><b>Empresa: </b></td>
                                     <td colspan="3"><b><span t-esc="o.partner_id.name"/></b></td>
                                 </tr>
+                                <tr>
+                                    <td><b>Dirección: </b></td>
+                                    <td colspan="3"><b><span t-esc="o.partner_id.contact_address_complete"/></b></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Nit: </b></td>
+                                    <td colspan="3"><b><span t-esc="o.partner_id.vat"/></b></td>
+                                </tr>                                
                             </table>
                             <br/>
                             <table style="width:85%">
@@ -70,7 +78,7 @@
                                 </tr>
                                 <tr>
                                     <td><b>Forma de entrega: </b></td>
-                                    <td colspan="3"><b><span t-esc="o.forma_entrega"/></b></td>
+                                    <td><b><span t-esc="o.forma_entrega"/></b></td>
                                 </tr>
                                 <tr>
                                     <td colspan="4">Por medio de la presente someto a su criterio la siguiente cotización.</td>
@@ -83,7 +91,7 @@
                         <table style="width:100%; font-size: 14px">
                             <tr style="background:#4B0082; color: WHITE; text-align:center">
                                 <th style="width:80px">ITEM</th>
-                                <th style="width:400px">DESCRIPCION</th>
+                                <th style="width:400px;text-align:left">DESCRIPCION</th>
                                 <th>CANTIDAD</th>
                                 <th>PRECIO FINAL</th>
                                 <th>SUBTOTAL</th>
@@ -93,8 +101,8 @@
                             <tr>
                                 <td><span t-esc="l.product_id.default_code"/></td>
                                 <td style="pdding-left:5px"><a t-if="l.product_id.link_web" t-attf-href="{{ l.product_id.link_web }}"><span t-esc="l.product_id.name"/></a></td>
-                                <td style="text-align:center"><span t-esc="l.product_uom_qty"/></td>
-                                <td style="text-align:right"><span t-esc="l.price_unit"/></td>
+                                <td style="text-align:center"><span t-esc="l.product_uom_qty" t-options='{"widget":"float","precision":0}'/></td>
+                                <td><span t-esc="l.price_unit" t-options='{"widget":"float","precision":2}'/></td>
                                 <td style="text-align:right"><span t-esc="l.price_total" t-options='{"widget":"float","precision":2}'/></td>
                             </tr>
                             <tr>
@@ -122,16 +130,16 @@
                             
                             <div class="div_derecho">
                                 <table style="width:85%; text-align:right" align="right">
-                                    <tr style="font-size:12px">
+                                    <!-- <tr style="font-size:12px">
                                         <td>SUBTOTAL</td>
                                         <td style="color:white; border-top:1px solid white; width:5px;">      </td>
                                         <td style="border-top:1px solid black"><span t-esc="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: docs.pricelist_id.currency_id}"/></td>
-                                    </tr>
-                                    <tr style="font-size:12px">
+                                    </tr> -->
+                                    <!-- <tr style="font-size:12px">
                                         <td>Gastos de envío</td>
                                         <td style="color:white; border-top:1px solid white; width:5px;">      </td>
                                         <td>PENDIENTE</td>
-                                    </tr>
+                                    </tr> -->
                                     <tr style="font-size:14px">
                                         <td><b>TOTAL</b></td>
                                         <td style="color:white; border-top:1px solid white; width:5px;">      </td>
@@ -160,11 +168,11 @@
                         <div class="footer" style="font-size:10px">
                         	<hr style="color: BLACK"/>
                             <div class="div_centrado">
-                                <table style="width:100%">
+                                <table style="width:100%; fonr-size:8px">
                                     <tr>
                                         <td style="width:60%; text-align:left">
                                             <p>
-                                            <b>Validez de la oferta: <span t-esc="o.validity_date"/></b><br/>
+                                            <b>Validez de la oferta: 4 días hábiles</b><br/>
                                             Existencias y precios sujetos a cambio sin previo aviso<br/>
                                             <br/>
                                             Cuenta Monetaria en Q a nombre de <span t-esc="o.company_id.name"/><br/>
