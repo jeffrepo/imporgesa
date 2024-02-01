@@ -98,17 +98,19 @@
                             </tr>
                             <t t-if="o.order_line">
                             <t t-foreach="o.order_line" t-as="l">
-                            <tr>
-                                <td><span t-esc="l.product_id.default_code"/></td>
-                                <td style="pdding-left:5px"><a t-if="l.product_id.link_web" t-attf-href="{{ l.product_id.link_web }}"><span t-esc="l.product_id.name"/></a></td>
-                                <td style="text-align:center"><span t-esc="l.product_uom_qty" t-options='{"widget":"float","precision":0}'/></td>
-                                <td><span t-esc="l.price_unit" t-options='{"widget":"float","precision":2}'/></td>
-                                <td style="text-align:right"><span t-esc="l.price_total" t-options='{"widget":"float","precision":2}'/></td>
-                            </tr>
-                            <tr>
-                                <td colspan="2"><span style="vertical-align:top" t-esc="l.product_id.descripcion_producto"/></td>
-                                <td colspan="3"><img t-if="l.product_id.image_1920" t-att-src="image_data_uri(l.product_id.image_1920)" style="width:60%; overflow: hidden" alt="Producto"/></td>
-                            </tr>
+                            <t t-if="l.display_type not in ['line_section','line_note']">  
+                              <tr>
+                                  <td><span t-esc="l.product_id.default_code"/></td>
+                                  <td style="pdding-left:5px"><a t-if="l.product_id.link_web" t-attf-href="{{ l.product_id.link_web }}"><span t-esc="l.product_id.name"/></a></td>
+                                  <td style="text-align:center"><span t-esc="l.product_uom_qty" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:0}"/></td>
+                                  <td><span t-esc="l.price_unit" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:2}"/></td>
+                                  <td style="text-align:right"><span t-esc="l.price_total" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:2}"/></td>
+                              </tr>
+                              <tr>
+                                  <td colspan="2"><span style="vertical-align:top" t-esc="l.product_id.descripcion_producto"/></td>
+                                  <td colspan="3"><img t-if="l.product_id.image_1920" t-att-src="image_data_uri(l.product_id.image_1920)" style="width:60%; overflow: hidden" alt="Producto"/></td>
+                              </tr>
+                            </t>
                             </t>
                             </t>
                         </table>
