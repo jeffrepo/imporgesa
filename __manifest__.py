@@ -18,6 +18,7 @@
 
     'data': [
         'security/ir.model.access.csv',
+        'report/cotizacion_supersemiagro.xml',
         # 'views/product_template_views.xml',
         'views/product_views.xml',
         # 'views/product_template_views.xml',
