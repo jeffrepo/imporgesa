@@ -56,7 +56,7 @@
         </record>
 
         <record id="imporgesa_cotizacion_supersemiagro" model="ir.actions.report">
-          <field name="name">Cotización Supersemiagro</field>
+          <field name="name">Cotización General</field>
           <field name="model">sale.order</field>
           <field name="report_type">qweb-pdf</field>
           <field name="report_name">imporgesa.cotizacion_supersemiagro</field>
