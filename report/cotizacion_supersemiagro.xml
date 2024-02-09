@@ -1,213 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="cotizacion_supersemiagro">
-       <t t-call="web.html_container">
-           <t t-set="data_report_margin_top" t-value="12"/>
-           <t t-set="data_report_header_spacing" t-value="4"/>
-            <t t-foreach="docs" t-as="o">
-                <div class="article">
-                    <div class="page">
+      <t t-call="web.html_container">
+          <t t-set="data_report_margin_top" t-value="6"/>
+          <t t-set="data_report_header_spacing" t-value="4"/>
+           <t t-foreach="docs" t-as="o">
+               <div class="article">
+                   <div class="page">
 
-                        <style>
+                       <style>
 
-                        * {
-                        padding: 0;
-                        margin: 0;
-                        }
+                       * {
+                       padding: 0;
+                       margin: 0;
+                       }
 
-                        div.div_centrado{
-                              padding: 0;
-                              margin: 0;
-                              width:100%;
-                        }
+                       div.div_centrado{
+                             padding: 0;
+                             margin: 0;
+                             width:100%;
+                       }
 
-                        div.div_izquierdo{
-                              padding: 0;
-                              margin: 0;
-                              width:50%;
-                              float:left;
-                        }
+                       div.div_izquierdo{
+                             padding: 0;
+                             margin: 0;
+                             width:50%;
+                             float:left;
+                       }
 
-                        div.div_derecho{
-                              padding: 0;
-                              margin: 0;
-                              width:50%;
-                              float:right;
-                        }
+                       div.div_derecho{
+                             padding: 0;
+                             margin: 0;
+                             width:50%;
+                             float:right;
+                       }
 
-                        </style>
+                       </style>
 
-                        <div class="div_centrado">
-                          <div class="div_izquierdo">
-                            <img src="/imporgesa/static/src/img/goodtime.png" style="width:65%;"/>
-                          </div>
-                          <div class="div_derecho" style="text-align:left">
-                            <p align="right">
-                                <t style="font-size: 16px">Cotización No: <t t-esc="o.name"/></t><br/>
-                                <t style="font-size: 14px">Guatemala, <span t-esc="convertir_fecha_hora(o.date_order)['fecha']" t-options='{"widget": "date"}'/></t><br/>
-                            </p>
-                          </div>
-                        </div>
+                       <div class="div_centrado">
+                         <div class="div_izquierdo" style="padding-left:-30px">
+                           <img src="web/binary/company_logo" style="width:40%;"/>
 
-                        <div class="div_centrado" style="font-size: 14px">
-                            <table style="width:85%">
-                                <tr>
-                                    <td><b>Cliente: </b></td>
-                                    <td colspan="3"><b>   </b></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Empresa: </b></td>
-                                    <td colspan="3"><b><span t-esc="o.partner_id.name"/></b></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Dirección: </b></td>
-                                    <td colspan="3"><b><span t-esc="o.partner_id.contact_address_complete"/></b></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Nit: </b></td>
-                                    <td colspan="3"><b><span t-esc="o.partner_id.vat"/></b></td>
-                                </tr>                                
-                            </table>
-                            <br/>
-                            <table style="width:85%">
-                                <tr>
-                                    <td><b>Email: </b></td>
-                                    <td style="width:45%"><b><span t-esc="o.partner_id.email"/></b></td>
-                                    <td><b>Teléfono: </b></td>
-                                    <td><b><span t-esc="o.partner_id.phone"/></b></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Forma de entrega: </b></td>
-                                    <td><b><span t-esc="o.forma_entrega"/></b></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4">Por medio de la presente someto a su criterio la siguiente cotización.</td>
-                                </tr>
-                            </table>
-                        </div>
+                         </div>
+                         <div class="div_derecho" style="text-align:left">
+                           <p align="right">
+                               <t style="font-size: 16px">Cotización No: <t t-esc="o.name"/></t><br/>
+                               <t style="font-size: 14px">Guatemala, <span t-esc="convertir_fecha_hora(o.date_order)['fecha']" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></t><br/>
+                               <img src="/imporgesa/static/src/img/goodtime.png" style="width:25%;"/>
+                           </p>
+                         </div>
+                       </div>
+                       <div class="clearfix"/>
+                       <br/>
+                       <div class="div_centrado" style="font-size: 14px">
+                           <table style="width:85%">
+                               <tr>
+                                   <td><b>Cliente: </b></td>
+                                   <td colspan="3"><b><span t-esc="o.partner_id.name"/></b></td>
+                               </tr>
+                               <tr>
+                                   <td><b>Empresa: </b></td>
+                                   <td colspan="3">
+                                     <t t-if="o.partner_id.parent_id">
+                                         <b><span t-esc="o.partner_id.parent_id.name"/></b>
+                                     </t>
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td><b>Dirección: </b></td>
+                                   <td colspan="3"><b><span t-esc="o.partner_id.contact_address_complete"/></b></td>
+                               </tr>
+                               <tr>
+                                   <td><b>Nit: </b></td>
+                                   <td colspan="3"><b><span t-esc="o.partner_id.vat"/></b></td>
+                               </tr>
+                           </table>
+                           <table style="width:85%">
+                               <tr>
+                                   <td><b>Email: </b></td>
+                                   <td style="width:45%"><b><span t-esc="o.partner_id.email"/></b></td>
+                                   <td><b>Teléfono: </b></td>
+                                   <td><b><span t-esc="o.partner_id.phone"/></b></td>
+                               </tr>
+                               <tr>
+                                   <td><b>Forma de entrega: </b></td>
+                                   <td><b><span t-esc="o.forma_entrega"/></b></td>
+                               </tr>
+                           </table>
+                       </div>
 
-                        <br/>
+                       <br/>
 
-                        <table style="width:100%; font-size: 14px">
-                            <tr style="background:#4B0082; color: WHITE; text-align:center">
-                                <th style="width:80px">ITEM</th>
-                                <th style="width:400px;text-align:left">DESCRIPCION</th>
-                                <th>CANTIDAD</th>
-                                <th>PRECIO FINAL</th>
-                                <th>SUBTOTAL</th>
-                            </tr>
-                            <t t-if="o.order_line">
-                            <t t-foreach="o.order_line" t-as="l">
-                            <t t-if="l.display_type not in ['line_section','line_note']">  
-                              <tr>
-                                  <td><span t-esc="l.product_id.default_code"/></td>
-                                  <td style="pdding-left:5px"><a t-if="l.product_id.link_web" t-attf-href="{{ l.product_id.link_web }}"><span t-esc="l.product_id.name"/></a></td>
-                                  <td style="text-align:center"><span t-esc="l.product_uom_qty" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:0}"/></td>
-                                  <td><span t-esc="l.price_unit" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:2}"/></td>
-                                  <td style="text-align:right"><span t-esc="l.price_total" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:2}"/></td>
-                              </tr>
-                              <tr>
-                                  <td colspan="2"><span style="vertical-align:top" t-esc="l.product_id.descripcion_producto"/></td>
-                                  <td colspan="3"><img t-if="l.product_id.image_1920" t-att-src="image_data_uri(l.product_id.image_1920)" style="width:60%; overflow: hidden" alt="Producto"/></td>
-                              </tr>
-                            </t>
-                            </t>
-                            </t>
-                        </table>
+                       <table style="width:100%; font-size: 14px">
+                           <tr style="background:#4B0082; color: WHITE; text-align:center">
+                               <th style="width:80px">ITEM</th>
+                               <th style="width:400px;text-align:left">DESCRIPCION</th>
+                               <th>CANTIDAD</th>
+                               <th style="text-align:right">PRECIO</th>
+                               <th style="text-align:right; padding-right:10px">SUBTOTAL</th>
+                           </tr>
+                           <t t-if="o.order_line">
+                           <t t-foreach="o.order_line" t-as="l">
+                           <t t-if="l.display_type not in ['line_section','line_note']">
+                             <tr>
+                                 <td><span t-esc="l.product_id.default_code"/></td>
+                                 <td style="pdding-left:5px"><a t-if="l.product_id.link_web" t-attf-href="{{ l.product_id.link_web }}"><span t-esc="l.product_id.name"/></a></td>
+                                 <td style="text-align:center"><span t-esc="l.product_uom_qty" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:0}"/></td>
+                                 <td style="text-align:right"><span t-esc="l.price_unit" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:2}"/></td>
+                                 <td style="text-align:right;padding-right:10px"><span t-esc="l.price_total" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:2}"/></td>
+                             </tr>
 
-                        <br/><br/>
+                             <tr>
+                                 <td colspan="2" style="  text-align: left;vertical-align: middle;"><span  t-esc="l.product_id.descripcion_producto"/></td>
+                                 <td colspan="3" ><img t-if="l.product_id.image_1920" t-att-src="image_data_uri(l.product_id.image_1920)" style="width:60%; overflow: hidden" alt="Producto"/></td>
+                             </tr>
+                           </t>
+                           <t t-else="">
+                             <tr>
+                                 <td colspan="5"><strong><span t-esc="l.name"/></strong></td>
+                             </tr>
+                           </t>
+                           </t>
+                           </t>
+                       </table>
 
-                        <div class="div_centrado">
-                            
-                            <div class="div_izquierdo" style="font-size: 14px">
-                                <table style="width:110%">
-                                    <tr>
-                                        <td><b>Observaciones: </b></td>
-                                    </tr>
-                                    <tr style="width:100%; height:150px">
-                                        <td style="border-top:1px solid black; border-right:1px solid black; border-bottom:1px solid black; border-left:1px solid black"><span t-esc="o.note"/></td>
-                                    </tr>
-                                </table>
-                            </div>
-                            
-                            <div class="div_derecho">
-                                <table style="width:85%; text-align:right" align="right">
-                                    <!-- <tr style="font-size:12px">
-                                        <td>SUBTOTAL</td>
-                                        <td style="color:white; border-top:1px solid white; width:5px;">      </td>
-                                        <td style="border-top:1px solid black"><span t-esc="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: docs.pricelist_id.currency_id}"/></td>
-                                    </tr> -->
-                                    <!-- <tr style="font-size:12px">
-                                        <td>Gastos de envío</td>
-                                        <td style="color:white; border-top:1px solid white; width:5px;">      </td>
-                                        <td>PENDIENTE</td>
-                                    </tr> -->
-                                    <tr style="font-size:14px">
-                                        <td><b>TOTAL</b></td>
-                                        <td style="color:white; border-top:1px solid white; width:5px;">      </td>
-                                        <td><b><span t-esc="o.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: docs.pricelist_id.currency_id}"/></b></td>
-                                    </tr>
-                                </table>
-                                <br/><br/><br/>
-                                <table style="width:85%; text-align:center" align="right">
-                                    <tr style="font-size:14px">
-                                        <td colspan="3" align="right" style="text-align:center; border-top:1px solid black; border-bottom:1px solid black">
-                                            <b><span t-esc="o.user_id[0].name"/><br/>
-                                            Directo <span t-esc="o.user_id.phone"/> Wapp <span t-esc="o.user_id.mobile"/><br/>
-                                            <span t-esc="o.company_id.name"/><br/>
-                                            <span t-esc="o.user_id.login"/>
-                                            </b>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            
-                        </div>
+                       <br/><br/>
 
-                        <div class="clearfix"/>
-                        <div class="break" style="height:2px"/>
+                       <div class="div_centrado">
 
-                        <div class="footer" style="font-size:10px">
-                        	<hr style="color: BLACK"/>
-                            <div class="div_centrado">
-                                <table style="width:100%; fonr-size:8px">
-                                    <tr>
-                                        <td style="width:60%; text-align:left">
-                                            <p>
-                                            <b>Validez de la oferta: 4 días hábiles</b><br/>
-                                            Existencias y precios sujetos a cambio sin previo aviso<br/>
-                                            <br/>
-                                            Cuenta Monetaria en Q a nombre de <span t-esc="o.company_id.name"/><br/>
-                                            BANRURAL 03103500085596<br/>
-                                            <span t-esc="o.company_id.vat"/> Sujeto a Pagos Trimestrales de ISR.<br/>
-                                            <br/>
-                                            El pedido será procesado y entregado en el lapso máximo de <span t-esc="o.picking_policy"/> (salvo alguna excepción)
-                                            </p>
-                                        </td>
-                                        <td style="width:60%; text-align:right">
-                                            <p>
-                                            <span t-esc="o.company_id.street"/><br/>
-                                            <span t-esc="o.company_id.website"/><br/>
-                                            Teléfono: <span t-esc="o.company_id.phone"/> Wapp <span t-esc="o.company_id.mobile"/><br/>
-                                            <span t-esc="o.company_id.email"/>
-                                            <br/>
-                                            <br/>
-                                            <br/>
-                                            Página <span class="page"/>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
+                           <div class="div_izquierdo" style="font-size: 14px">
+                               <table style="width:110%">
+                                   <tr>
+                                       <td><b>Observaciones: </b></td>
+                                   </tr>
+                                   <tr style="width:100%; height:150px">
+                                       <td style="border-top:1px solid black; border-right:1px solid black; border-bottom:1px solid black; border-left:1px solid black"><span t-esc="o.note"/></td>
+                                   </tr>
+                               </table>
+                           </div>
 
-                            <div class="clearfix"/>
-                            <div class="break" style="height:2px"/>
-                                    
-                        </div>
-                        
-                    </div>                            
-                </div>
-            </t>
-        </t>
+                           <div class="div_derecho">
+                               <table style="width:85%; text-align:right" align="right">
+                                   <!-- <tr style="font-size:12px">
+                                       <td>SUBTOTAL</td>
+                                       <td style="color:white; border-top:1px solid white; width:5px;">      </td>
+                                       <td style="border-top:1px solid black"><span t-esc="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: docs.pricelist_id.currency_id}"/></td>
+                                   </tr> -->
+                                   <!-- <tr style="font-size:12px">
+                                       <td>Gastos de envío</td>
+                                       <td style="color:white; border-top:1px solid white; width:5px;">      </td>
+                                       <td>PENDIENTE</td>
+                                   </tr> -->
+                                   <tr style="font-size:14px">
+                                       <td><b>TOTAL</b></td>
+                                       <td style="color:white; border-top:1px solid white; width:5px;">      </td>
+                                       <td><b><span t-esc="o.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: docs.pricelist_id.currency_id}"/></b></td>
+                                   </tr>
+                               </table>
+                               <br/><br/><br/>
+                               <table style="width:85%; text-align:center" align="right">
+                                   <tr style="font-size:14px">
+                                       <td colspan="3" align="right" style="text-align:center; border-top:1px solid black; border-bottom:1px solid black">
+                                           <b><span t-esc="o.user_id[0].name"/><br/>
+                                           Teléfono: +(502) 2231 6800 y +(502) 2231-6801<br/>
+                                           Wapp +(502) 5829 8151<br/>
+                                           <span t-esc="o.company_id.name"/><br/>
+                                           <span t-esc="o.user_id.login"/>
+                                           </b>
+                                       </td>
+                                   </tr>
+                               </table>
+                           </div>
+
+                       </div>
+
+                       <div class="clearfix"/>
+                       <div class="break" style="height:2px"/>
+
+                       <div class="footer" style="font-size:10px">
+                         <hr style="color: BLACK"/>
+                           <div class="div_centrado">
+                               <table style="width:100%; fonr-size:8px">
+                                   <tr>
+                                       <td style="width:60%; text-align:left">
+                                           <p>
+                                           <b>Validez de la oferta: 15 días calendario</b><br/>
+                                           Existencias y precios sujetos a cambio sin previo aviso<br/>
+                                           <br/>
+                                           Cuenta Monetaria en Q a nombre de <span t-esc="o.company_id.name"/><br/>
+                                           BANRURAL 03103500085596<br/>
+                                           <span t-esc="o.company_id.vat"/> Sujeto a Pagos Trimestrales de ISR.<br/>
+                                           <br/>
+                                           El pedido será procesado y entregado en el lapso máximo de <span t-esc="o.picking_policy"/> (salvo alguna excepción)
+                                           </p>
+                                       </td>
+                                       <td style="width:60%; text-align:right">
+                                           <p>
+                                           7 Calle 3-47 Balcones de San Cristobal 2 Zona 8 Mixco, Guatemala<br/>
+                                           <span t-esc="o.company_id.website"/><br/>
+                                           Teléfono: +(502) 2231 6800 y +(502) 2231-6801 Wapp +(502) 5829 8151<br/>
+                                           <span t-esc="o.company_id.email"/>
+                                           <br/>
+                                           <br/>
+                                           <br/>
+                                           Página <span class="page"/>
+                                           </p>
+                                       </td>
+                                   </tr>
+                               </table>
+                           </div>
+
+                           <div class="clearfix"/>
+                           <div class="break" style="height:2px"/>
+
+                       </div>
+
+                   </div>
+               </div>
+           </t>
+       </t>
+
     </template>
 </odoo>
