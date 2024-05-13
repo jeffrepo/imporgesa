@@ -64,5 +64,17 @@
           <field name="binding_model_id" ref="model_sale_order"/>
           <field name="binding_type">report</field>
       </record>
+
+
+    <record id="imporgesa_cotizacion_nutrifood" model="ir.actions.report">
+        <field name="name">Cotización Nutrifood</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">imporgesa.cotizacion_supersemiagro_nutrifod</field>
+        <field name="report_file">imporgesa.cotizacion_supersemiagro_nutrifod</field>
+        <field name="binding_model_id" ref="model_sale_order"/>
+        <field name="binding_type">report</field>
+    </record>
+
     </data>
 </odoo>
