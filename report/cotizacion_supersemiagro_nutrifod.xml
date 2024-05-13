@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="cotizacion_supersemiagro">
+    <template id="cotizacion_supersemiagro_nutrifod">
       <t t-call="web.html_container">
           <t t-set="data_report_margin_top" t-value="6"/>
           <t t-set="data_report_header_spacing" t-value="4"/>
@@ -46,7 +46,7 @@
                            <p align="right">
                                <t style="font-size: 16px">Cotización No: <t t-esc="o.name"/></t><br/>
                                <t style="font-size: 14px">Guatemala, <span t-esc="convertir_fecha_hora(o.date_order)['fecha']" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></t><br/>
-                               <img src="/imporgesa/static/src/img/goodtime.png" style="width:25%;"/>
+                               <img src="/imporgesa/static/src/img/nutrifood.png" style="width:25%;"/>
                            </p>
                          </div>
                        </div>
@@ -92,7 +92,7 @@
                        <br/>
 
                        <table style="width:100%; font-size: 14px">
-                           <tr style="background:#4B0082; color: WHITE; text-align:center">
+                           <tr style="background:#415804; color: WHITE; text-align:center">
                                <th style="width:80px">ITEM</th>
                                <th style="width:400px;text-align:left">DESCRIPCION</th>
                                <th>CANTIDAD</th>
@@ -163,10 +163,10 @@
                                         <td colspan="3" align="right" style="text-align:center; border-top:1px solid black; border-bottom:1px solid black">
                                             <b><span t-esc="o.user_id[0].name"/><br/>
                                             <span t-esc="o.user_id.login"/><br/>
-                                            Teléfono: +(502) 2231 6800 y +(502) 2231-6801<br/>
-                                            Wapp +(502) 5829 8151<br/>
+                                            Teléfono: +(502) 2231 6810 y +(502) 2231-6811<br/>
+                                            Wapp +(502) 3992 4489<br/>
                                             <span t-esc="o.company_id.name"/><br/>
-                                            www.goodtime.com.gt<br/>
+                                            www.nutrifoodgt.com<br/>
                                             </b>
                                         </td>
                                     </tr>

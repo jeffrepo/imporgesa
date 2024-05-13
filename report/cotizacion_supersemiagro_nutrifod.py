@@ -4,8 +4,8 @@ from odoo import api, models, fields
 import logging
 import datetime
 
-class ReportCotizacionSupersemiagro(models.AbstractModel):
-    _name = 'report.imporgesa.cotizacion_supersemiagro'
+class ReportCotizacionSupersemiagroNutrifod(models.AbstractModel):
+    _name = 'report.imporgesa.cotizacion_supersemiagro_nutrifod'
 
     def a_letras(self, monto):
         letras = numero_a_moneda(monto)
