@@ -35,6 +35,12 @@
                              float:right;
                        }
 
+                        .product-image {
+                                width: 100px;
+                                height: 100px;
+                                object-fit: cover;
+                        }
+
                        </style>
 
                        <div class="div_centrado">
@@ -112,7 +118,7 @@
 
                              <tr>
                                  <td colspan="2" style="  text-align: left;vertical-align: middle;"><span  t-esc="l.product_id.descripcion_producto"/></td>
-                                 <td colspan="3" ><img t-if="l.product_id.image_1920" t-att-src="image_data_uri(l.product_id.image_1920)" style="width:60%; overflow: hidden" alt="Producto"/></td>
+                                 <td colspan="3" ><img t-if="l.product_id.image_1920" t-att-src="image_data_uri(l.product_id.image_1920)" class="product-image" alt="Producto"/></td>
                              </tr>
                            </t>
                            <t t-else="">
