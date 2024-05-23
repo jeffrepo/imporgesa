@@ -16,7 +16,19 @@ class ReporteVentasWizard(models.TransientModel):
     fecha_fin = fields.Date('Fecha fin')
     name = fields.Char('Nombre archivo', size=32)
     archivo = fields.Binary('Archivo', filters='.xls')
-    diario_ids = fields.Many2many('account.journal',string='Diarios de venta')
+    diario_ids = fields.Many2many('account.journal', string='Diarios de venta', default=lambda self: self._default_diario_ids())
+
+    @api.model
+    def _default_diario_ids(self):
+        # Nombres de los diarios por defecto
+        diarios_por_defecto = [
+            'Factura Contado Mobiliario y Suministros',
+            'Factura Cambiaria Mobiliario y Suministro',
+            'Factura Contado Alimentos Nutricionales',
+            'Factura Cambiaria exportaciones muebles',
+            'Factura Cambiaria Alimentos Nutricionales'
+        ]
+        return self.env['account.journal'].search([('name', 'in', diarios_por_defecto)]).ids
 
     def print_report(self):
         data = {
@@ -26,7 +38,6 @@ class ReporteVentasWizard(models.TransientModel):
         }
         return self.env.ref('imporgesa.action_reporte_ventas').report_action([], data=data)
 
-
     def print_report_excel(self):
         for w in self:
 
@@ -34,8 +45,8 @@ class ReporteVentasWizard(models.TransientModel):
             libro = xlsxwriter.Workbook(f)
             hoja = libro.add_worksheet('Reporte de ventas')
             formato_titulo = libro.add_format({'size': 11, 'color':'#0d354d', 'align':'center', 'fg_color':'#ffffff', 'bold':False})
-            #Tamaño de las columnas
-            hoja.set_column('A:Y', 20)
+            # Tamaño de las columnas
+            hoja.set_column('A:Z', 20)
 
             hoja.write(1, 0, 'Fecha', formato_titulo)
             hoja.write(1, 1, 'Correlativo interno', formato_titulo)
@@ -48,38 +59,50 @@ class ReporteVentasWizard(models.TransientModel):
             hoja.write(1, 8, 'Cantidad', formato_titulo)
             hoja.write(1, 9, 'Precio', formato_titulo)
             hoja.write(1, 10, 'Subtotal venta sin IVA', formato_titulo)
-            # hoja.write(1, 11, 'Total venta', formato_titulo)
-            hoja.write(1, 11, 'Costo', formato_titulo)
-            hoja.write(1, 12, 'Subtotal costo', formato_titulo)
-            hoja.write(1, 13, 'Cliente', formato_titulo)
-            hoja.write(1, 14, 'NIT', formato_titulo)
-            hoja.write(1, 15, 'Giro de negocio', formato_titulo)
-            hoja.write(1, 16, 'Direccion', formato_titulo)
-            hoja.write(1, 17, 'Departamento', formato_titulo)
-            hoja.write(1, 18, 'Saldo', formato_titulo)
-            hoja.write(1, 19, 'Utilidad', formato_titulo)
-            hoja.write(1, 20, 'Margen', formato_titulo)
-            hoja.write(1, 21, 'Vendedor', formato_titulo)
-            hoja.write(1, 22, 'Correo electrónico', formato_titulo)
-            hoja.write(1, 23, 'Teléfono', formato_titulo)
-            hoja.write(1, 24, 'Celular', formato_titulo)
+            hoja.write(1, 11, 'Total venta', formato_titulo)  
+            hoja.write(1, 12, 'Costo', formato_titulo)
+            hoja.write(1, 13, 'Subtotal costo', formato_titulo)
+            hoja.write(1, 14, 'Cliente', formato_titulo)
+            hoja.write(1, 15, 'NIT', formato_titulo)
+            hoja.write(1, 16, 'Giro de negocio', formato_titulo)
+            hoja.write(1, 17, 'Direccion', formato_titulo)
+            hoja.write(1, 18, 'Departamento', formato_titulo)
+            hoja.write(1, 19, 'Saldo', formato_titulo)
+            hoja.write(1, 20, 'Utilidad', formato_titulo)
+            hoja.write(1, 21, 'Margen', formato_titulo)
+            hoja.write(1, 22, 'Vendedor', formato_titulo)
+            hoja.write(1, 23, 'Correo electrónico', formato_titulo)
+            hoja.write(1, 24, 'Teléfono', formato_titulo)
+            hoja.write(1, 25, 'Celular', formato_titulo)
 
             tipo_factura = ['out_invoice', 'out_refund']
 
             facturas = self.env['account.move'].search([
-            ('invoice_date', '>=', w.fecha_inicio),
-            ('invoice_date', '<=', w.fecha_fin),
-            ('journal_id','=', w.diario_ids.ids),
-            ('move_type', 'in', tipo_factura)])
+                ('invoice_date', '>=', w.fecha_inicio),
+                ('invoice_date', '<=', w.fecha_fin),
+                ('journal_id', 'in', w.diario_ids.ids),
+                ('move_type', 'in', tipo_factura),
+                ('state', '=', 'posted')
+            ])
 
-            fila=2
+            fila = 2
+
+            # Obtener la moneda Quetzales desde la configuración
+            currency_quetzal = self.env.ref('base.GTQ')
 
             for factura in facturas:
                 subtotal_costo = 0
                 direccion = []
                 utilidad = 0
                 margen = 0
-                precio, price_total, standard_price, quantity, amount_residual = 0,0,0,0,0
+                precio, price_total, standard_price, quantity, amount_residual = 0, 0, 0, 0, 0
+
+                # Determinar la moneda del diario y la tasa de cambio
+                currency_rate = 1
+                if factura.currency_id != currency_quetzal:
+                    currency_rate = self.env['res.currency']._get_conversion_rate(
+                        factura.currency_id, currency_quetzal, self.env.user.company_id, factura.invoice_date
+                    )
 
                 if factura.partner_id.street:
                     direccion.append(factura.partner_id.street)
@@ -106,77 +129,83 @@ class ReporteVentasWizard(models.TransientModel):
                         hoja.write(fila, 6, linea.product_id.marca)
                     hoja.write(fila, 7, linea.product_id.categ_id.name)
 
+                    # Convertir los valores a Quetzales si es necesario
+                    price_unit = linea.price_unit * currency_rate
+                    price_subtotal = linea.price_subtotal * currency_rate
+                    standard_price = linea.product_id.standard_price * currency_rate
+                    price_total = linea.price_total * currency_rate  
+                    amount_residual = factura.amount_residual * currency_rate
+
                     if factura.move_type == 'out_invoice' and factura.state == 'posted':
                         hoja.write(fila, 8, linea.quantity)
-                        hoja.write(fila, 9, linea.price_unit)
-                        hoja.write(fila, 10, linea.price_subtotal)
-                        # hoja.write(fila, 11, linea.price_total)
-                        hoja.write(fila, 11, linea.product_id.standard_price)
-                        subtotal_costo = round(linea.product_id.standard_price * linea.quantity,2)
-                        hoja.write(fila, 12, subtotal_costo)
+                        hoja.write(fila, 9, price_unit)
+                        hoja.write(fila, 10, price_subtotal)
+                        hoja.write(fila, 11, price_total) 
+                        hoja.write(fila, 12, standard_price)
+                        subtotal_costo = round(standard_price * linea.quantity, 2)
+                        hoja.write(fila, 13, subtotal_costo)
 
-                        hoja.write(fila, 18, factura.amount_residual)
+                        hoja.write(fila, 19, amount_residual)
                         utilidad = linea.price_total - subtotal_costo
-                        hoja.write(fila, 19, utilidad)
-                        margen = round(utilidad / linea.price_total,2)
-                        hoja.write(fila, 20, margen)
+                        hoja.write(fila, 20, utilidad)
+                        margen = round(utilidad / linea.price_total, 2)
+                        hoja.write(fila, 21, margen)
 
                     elif factura.move_type == 'out_refund' and factura.state == 'posted':
                         quantity = linea.quantity * -1
                         hoja.write(fila, 8, quantity)
-                        precio = linea.price_unit * -1
+                        precio = price_unit * -1
                         hoja.write(fila, 9, precio)
-                        price_total = linea.price_total * -1
-                        price_subtotal = linea.price_subtotal *-1
+                        price_total = price_total * -1  
+                        price_subtotal = price_subtotal * -1
                         hoja.write(fila, 10, price_subtotal)
-                        # hoja.write(fila, 11, price_total)
-                        standard_price = linea.product_id.standard_price * -1
-                        hoja.write(fila, 11, standard_price)
-                        subtotal_costo = round(linea.product_id.standard_price * linea.quantity,2)
+                        hoja.write(fila, 11, price_total)  
+                        standard_price = standard_price * -1
+                        hoja.write(fila, 12, standard_price)
+                        subtotal_costo = round(standard_price * linea.quantity, 2)
                         subtotal_costo = subtotal_costo * -1
-                        hoja.write(fila, 12, subtotal_costo)
-                        amount_residual = factura.amount_residual * -1
-                        hoja.write(fila, 18, amount_residual)
+                        hoja.write(fila, 13, subtotal_costo)
+                        amount_residual = amount_residual * -1
+                        hoja.write(fila, 19, amount_residual)
                         utilidad = linea.price_total - subtotal_costo
                         utilidad = utilidad * -1
-                        hoja.write(fila, 19, utilidad)
-                        margen = round(utilidad / linea.price_total,2)
+                        hoja.write(fila, 20, utilidad)
+                        margen = round(utilidad / linea.price_total, 2)
                         margen = margen * -1
                         hoja.write(fila, 21, margen)
                     elif factura.state == 'cancel':
                         hoja.write(fila, 8, int(0))
                         hoja.write(fila, 9, int(0))
                         hoja.write(fila, 10, int(0))
-                        # hoja.write(fila, 11, int(0))
                         hoja.write(fila, 11, int(0))
                         hoja.write(fila, 12, int(0))
-                        hoja.write(fila, 19, int(0))
+                        hoja.write(fila, 13, int(0))
                         hoja.write(fila, 20, int(0))
                         hoja.write(fila, 21, int(0))
+                        hoja.write(fila, 22, int(0))
                     else:
                         continue
 
-                    hoja.write(fila, 13, factura.partner_id.name)
+                    hoja.write(fila, 14, factura.partner_id.name)
                     if factura.partner_id.vat:
-                        hoja.write(fila, 14, factura.partner_id.vat)
+                        hoja.write(fila, 15, factura.partner_id.vat)
                     if factura.partner_id.giro_negocio_id:
-                        hoja.write(fila, 15, factura.partner_id.giro_negocio_id.name)
-                    hoja.write(fila, 16, direccion)
-                    hoja.write(fila, 17, factura.partner_id.state_id.name)
-
+                        hoja.write(fila, 16, factura.partner_id.giro_negocio_id.name)
+                    hoja.write(fila, 17, direccion)
+                    hoja.write(fila, 18, factura.partner_id.state_id.name)
 
                     if factura.partner_id.email:
-                        hoja.write(fila, 22, factura.partner_id.email)
+                        hoja.write(fila, 23, factura.partner_id.email)
                     if factura.partner_id.phone:
-                        hoja.write(fila, 23, factura.partner_id.phone)
+                        hoja.write(fila, 24, factura.partner_id.phone)
                     if factura.partner_id.mobile:
-                        hoja.write(fila, 24, factura.partner_id.mobile)
+                        hoja.write(fila, 25, factura.partner_id.mobile)
 
-                    fila+=1
+                    fila += 1
 
             libro.close()
             datos = base64.b64encode(f.getvalue())
-            self.write({'archivo':datos, 'name':'Reporte_ventas.xlsx'})
+            self.write({'archivo': datos, 'name': 'Reporte_ventas.xlsx'})
 
         return {
             'view_type': 'form',
