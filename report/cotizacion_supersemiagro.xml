@@ -35,11 +35,6 @@
                              float:right;
                        }
 
-                        .product-image {
-                                width: 100px;
-                                height: 100px;
-                                object-fit: cover;
-                        }
 
                        </style>
 
@@ -79,7 +74,7 @@
                                 <tr>
                                     <td><b>Nit: </b></td>
                                     <td colspan="3"><b><span t-esc="o.partner_id.vat"/></b></td>
-                                </tr>                                
+                                </tr>
                             </table>
                             <table style="width:85%">
                                 <tr>
@@ -98,7 +93,7 @@
                        <br/>
 
                        <table style="width:100%; font-size: 14px">
-                           <tr style="background:#4B0082; color: WHITE; text-align:center">
+                           <tr style="background:gray; color: WHITE; text-align:center">
                                <th style="width:80px">ITEM</th>
                                <th style="width:400px;text-align:left">DESCRIPCION</th>
                                <th>CANTIDAD</th>
@@ -117,8 +112,8 @@
                              </tr>
 
                              <tr>
-                                 <td colspan="2" style="  text-align: left;vertical-align: middle;"><span  t-esc="l.product_id.descripcion_producto"/></td>
-                                 <td colspan="3" ><img t-if="l.product_id.image_1920" t-att-src="image_data_uri(l.product_id.image_1920)" class="product-image" alt="Producto"/></td>
+                                 <td colspan="2" style="  text-align: left;vertical-align: middle;"><span t-esc="l.product_id.descripcion_producto"/></td>
+                                 <td colspan="3"><img t-if="l.product_id.image_1920" t-att-src="image_data_uri(l.product_id.image_1920)" class="product-image" alt="Producto" style="width:60%; overflow: hidden"/></td>
                              </tr>
                            </t>
                            <t t-else="">
