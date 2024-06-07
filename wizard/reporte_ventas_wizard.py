@@ -4,16 +4,14 @@ from odoo import models, fields, api
 import xlsxwriter
 import base64
 import io
-import logging
 from datetime import datetime
-# import datetime
 
 class ReporteVentasWizard(models.TransientModel):
     _name = 'imporgesa.reporte_ventas.wizard'
     _description = "Wizard para reporte de ventas"
 
-    fecha_inicio = fields.Date('Fecha inicio')
-    fecha_fin = fields.Date('Fecha fin')
+    fecha_inicio = fields.Date('Fecha inicio', default=lambda self: self._default_fecha_inicio())
+    fecha_fin = fields.Date('Fecha fin', default=lambda self: self._default_fecha_fin())
     name = fields.Char('Nombre archivo', size=32)
     archivo = fields.Binary('Archivo', filters='.xls')
     diario_ids = fields.Many2many('account.journal', string='Diarios de venta', default=lambda self: self._default_diario_ids())
@@ -26,9 +24,25 @@ class ReporteVentasWizard(models.TransientModel):
             'Factura Cambiaria Mobiliario y Suministro',
             'Factura Contado Alimentos Nutricionales',
             'Factura Cambiaria exportaciones muebles',
-            'Factura Cambiaria Alimentos Nutricionales'
+            'Factura Cambiaria Alimentos Nutricionales',
+            'NC Exportaciones Muebles',
+            'NC Exportaciones Alimentos',
+            'NC Alimentos Nutricionales',
+            'NC Mobiliario y Suministros',
+            'NABN Alimentos Nutricionales',
+            'NABN Mobiliario y Suministros'
         ]
         return self.env['account.journal'].search([('name', 'in', diarios_por_defecto)]).ids
+
+    @api.model
+    def _default_fecha_inicio(self):
+        # Primera fecha del año actual
+        return datetime(datetime.now().year, 1, 1)
+
+    @api.model
+    def _default_fecha_fin(self):
+        # Fecha actual
+        return datetime.now().date()
 
     def print_report(self):
         data = {
@@ -40,12 +54,10 @@ class ReporteVentasWizard(models.TransientModel):
 
     def print_report_excel(self):
         for w in self:
-
             f = io.BytesIO()
             libro = xlsxwriter.Workbook(f)
             hoja = libro.add_worksheet('Reporte de ventas')
             formato_titulo = libro.add_format({'size': 11, 'color':'#0d354d', 'align':'center', 'fg_color':'#ffffff', 'bold':False})
-            # Tamaño de las columnas
             hoja.set_column('A:Z', 20)
 
             hoja.write(1, 0, 'Fecha', formato_titulo)
@@ -86,8 +98,6 @@ class ReporteVentasWizard(models.TransientModel):
             ])
 
             fila = 2
-
-            # Obtener la moneda Quetzales desde la configuración
             currency_quetzal = self.env.ref('base.GTQ')
 
             for factura in facturas:
@@ -97,7 +107,6 @@ class ReporteVentasWizard(models.TransientModel):
                 margen = 0
                 precio, price_total, standard_price, quantity, amount_residual = 0, 0, 0, 0, 0
 
-                # Determinar la moneda del diario y la tasa de cambio
                 currency_rate = 1
                 if factura.currency_id != currency_quetzal:
                     currency_rate = self.env['res.currency']._get_conversion_rate(
@@ -129,7 +138,6 @@ class ReporteVentasWizard(models.TransientModel):
                         hoja.write(fila, 6, linea.product_id.marca)
                     hoja.write(fila, 7, linea.product_id.categ_id.name)
 
-                    # Convertir los valores a Quetzales si es necesario
                     price_unit = linea.price_unit * currency_rate
                     price_subtotal = linea.price_subtotal * currency_rate
                     standard_price = linea.product_id.standard_price * currency_rate
