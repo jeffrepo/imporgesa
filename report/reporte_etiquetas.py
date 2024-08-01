@@ -52,7 +52,7 @@ class ReporteEtiquetaConPrecioSO(models.AbstractModel):
                         dicc_products_price[linea.product_id.default_code].append({
                         'codigo':linea.product_id.default_code,
                         'descripcion': linea.product_id.name,
-                        'precio':linea.product_id.list_price,
+                        'precio':linea.price_unit,
                         'codigo_barras': linea.product_id.barcode
                         })
         logging.warning('dicc_products_price')
