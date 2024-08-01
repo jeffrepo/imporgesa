@@ -45,7 +45,7 @@
                               <tr>
                                 <td align="center">
                                     <!-- <span t-esc="i" style="font-size:10px"/> -->
-                                    <font style="font-size: 5px">Q<span t-esc="posicion['precio']" style="align:center"/></font>
+                                    <font style="font-size: 5px">Q<span t-esc="posicion['precio']" style="align:center" t-options='{"widget": "float", "precision": 2}/></font>
                                 </td>
                               </tr>
                               <!-- <p style="page-break-after:always;">   </p> -->
