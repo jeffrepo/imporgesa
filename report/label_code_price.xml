@@ -49,7 +49,7 @@
                               <tr>
                                 <td align="center">
 
-                                    <font style="font-size: 5px">Q<span t-esc="posicion['precio']" style="align:center" t-options='{"widget": "float", "precision": 2}/></font>
+                                    <font style="font-size: 5px">Q<span t-esc="posicion['precio']" style="align:center" t-options='{"widget": "float", "precision": 2}'/></font>
                                 </td>
                               </tr>
 
