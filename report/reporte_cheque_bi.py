@@ -105,7 +105,7 @@ class ReportBancoIndustrial(models.AbstractModel):
         elif int(entero) < 1000000000000:
             millones = int(entero.rjust(12)[0:6])
             miles = entero.rjust(12)[6:12]
-            num_en_letras = num_a_letras(str(millones), False) + ' ' + en_letras['x:x']
+            num_en_letras = self.num_a_letras(str(millones), False) + ' ' + en_letras['x:x']
             if miles != '000000':
                 num_en_letras = num_en_letras + ' ' + self.num_a_letras(miles, False)
 
