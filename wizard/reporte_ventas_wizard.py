@@ -158,6 +158,7 @@ class ReporteVentasWizard(models.TransientModel):
                         hoja.write(fila, 20, utilidad)
                         margen = round(utilidad / linea.price_total, 2)
                         hoja.write(fila, 21, margen)
+                        hoja.write(fila, 22, factura.invoice_user_id.name)
 
                     elif factura.move_type == 'out_refund' and factura.state == 'posted':
                         quantity = linea.quantity * -1
@@ -181,6 +182,7 @@ class ReporteVentasWizard(models.TransientModel):
                         margen = round(utilidad / linea.price_total, 2)
                         margen = margen * -1
                         hoja.write(fila, 21, margen)
+                        hoja.write(fila, 22, factura.invoice_user_id.name)
                     elif factura.state == 'cancel':
                         hoja.write(fila, 8, int(0))
                         hoja.write(fila, 9, int(0))
