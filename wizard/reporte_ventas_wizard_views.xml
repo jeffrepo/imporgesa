@@ -24,12 +24,19 @@
             </field>
         </record>
 
-        <act_window id="launch_imporgesa_reporte_ventas"
+        <record id="launch_imporgesa_reporte_ventas" model="ir.actions.act_window">
+            <field name="name">Reporte de ventas</field>
+            <field name="res_model">imporgesa.reporte_ventas.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <!-- <act_window id="launch_imporgesa_reporte_ventas"
                     name="Reporte de ventas"
                     binding_model="account.account"
                     res_model="imporgesa.reporte_ventas.wizard"
                     view_mode="form"
-                    target="new"/>
+                    target="new"/> -->
 
         <menuitem action="launch_imporgesa_reporte_ventas" id="menu_reporte_ventas" parent="account.menu_finance_reports"/>
 

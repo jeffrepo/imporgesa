@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Grupo que podrá editar el campo user_id -->
+    <record id="group_partner_userid_editable" model="res.groups">
+        <field name="name">Puede editar Vendedor en Contactos</field>
+    </record>
+
+</odoo>

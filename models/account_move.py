@@ -1,7 +1,4 @@
 from odoo import api, fields, models, tools, _
-from odoo.modules import get_module_resource
-from odoo.release import version_info
-import logging
 
 class AccountMove(models.Model):
     _inherit = 'account.move'

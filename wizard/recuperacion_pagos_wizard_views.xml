@@ -26,12 +26,19 @@
             </field>
         </record>
 
-        <act_window id="launch_imporgesa_recuperacion_pagos"
+        <record id="launch_imporgesa_recuperacion_pagos" model="ir.actions.act_window">
+            <field name="name">Recuperacion de pagos</field>
+            <field name="res_model">imporgesa.recuperacion_pagos.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <!-- <act_window id="launch_imporgesa_recuperacion_pagos"
                     name="Recuperacion de pagos"
                     binding_model="account.account"
                     res_model="imporgesa.recuperacion_pagos.wizard"
                     view_mode="form"
-                    target="new"/>
+                    target="new"/> -->
 
         <menuitem action="launch_imporgesa_recuperacion_pagos" id="menu_reporte_recuperacion_pagos" parent="account.menu_finance_reports"/>
 

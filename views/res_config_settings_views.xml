@@ -6,21 +6,11 @@
       <field name="model">res.config.settings</field>
       <field name="inherit_id" ref="sale.res_config_settings_view_form" />
       <field name="arch" type="xml">
-          <div id="pricing_setting_container" position="inside">
-              <div class="col-12 col-lg-6 o_setting_box" id="margen_venta_class">
-                  <div class="o_setting_left_pane"/>
-                  <div class="o_setting_right_pane">
-                      <span class="o_form_label">Margen mínimo para vendedores</span>
-                      <div class="text-muted">
-                          Margen mínimo para vendedores
-                      </div>
-                      <div class="text-muted">
-                          <field name="margen_venta"/>
-                      </div>
-                  </div>
-              </div>
-
-          </div>
+          <block id="pricing_setting_container" position="inside">
+              <setting id="imporgesa_margen_venta" title="Magen para la venta" help="Margen para la venta">
+                    <field name="margen_venta"/>
+               </setting>s
+              </block>
       </field>
   </record>
 

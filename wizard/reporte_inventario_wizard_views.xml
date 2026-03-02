@@ -26,12 +26,19 @@
             </field>
         </record>
 
-        <act_window id="launch_imporgesa_reporte_inventario"
+        <record id="launch_imporgesa_reporte_inventario" model="ir.actions.act_window">
+            <field name="name">Reporte de inventario</field>
+            <field name="res_model">imporgesa.reporte_inventario.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <!-- <act_window id="launch_imporgesa_reporte_inventario"
                     name="Reporte de inventario"
                     binding_model="account.account"
                     res_model="imporgesa.reporte_inventario.wizard"
                     view_mode="form"
-                    target="new"/>
+                    target="new"/> -->
 
         <menuitem action="launch_imporgesa_reporte_inventario" id="menu_reporte_inventario" parent="account.menu_finance_reports"/>
 

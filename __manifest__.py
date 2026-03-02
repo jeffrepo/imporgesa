@@ -8,7 +8,7 @@
         Imporgesa
     """,
 
-    'author': "STECHNOLOGIES",
+    'author': "Silva technologies",
     'website': "",
 
     'category': 'Uncategorized',
@@ -17,6 +17,7 @@
     'depends': ['product','base','sale', 'stock', 'sale_margin','account_gt'],
 
     'data': [
+        'security/security.xml',
         'security/ir.model.access.csv',
         'report/cotizacion_supersemiagro.xml',
         'report/cotizacion_supersemiagro_nutrifod.xml',

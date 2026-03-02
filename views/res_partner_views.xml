@@ -23,19 +23,17 @@
 
             </field>
         </record>
-         
-        <record id="view_partner_form_modificado_grupo" model="ir.ui.view">
-            <field name="name">res.partner.form.modificado.grupo</field>
+
+        <record id="view_partner_form_userid_editable_group" model="ir.ui.view">
+            <field name="name">res.partner.form.user_id.editable.group</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
-            <field name="groups_id" eval="[(6, 0, [ref('__export__.res_groups_71_b94f3324') ])]" />  
             <field name="arch" type="xml">
-                <field name="user_id" position="attributes">
-                   <attribute name="readonly">0</attribute>                   
-                </field>  
-
+                <field name="user_id" position="attributes" groups="imporgesa.group_partner_userid_editable">
+                    <attribute name="readonly">0</attribute>
+                </field>
             </field>
-        </record> 
+        </record>
 
     </data>
 </odoo>
